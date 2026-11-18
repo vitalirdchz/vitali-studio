@@ -5,6 +5,7 @@ import Footer from './components/layout/Footer';
 
 const Home = lazy(() => import('./pages/Home'));
 const Charte = lazy(() => import('./pages/Charte'));
+const Cgv = lazy(() => import('./pages/Cgv'));
 const Admin = lazy(() => import('./pages/Admin'));
 
 function Layout({ children }) {
@@ -51,6 +52,14 @@ export default function App() {
           element={
             <Layout>
               <Charte />
+            </Layout>
+          }
+        />
+        <Route
+          path="/cgv"
+          element={
+            <Layout>
+              <Cgv />
             </Layout>
           }
         />

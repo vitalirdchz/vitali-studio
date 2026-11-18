@@ -8,7 +8,8 @@ const navigationLinks = [
   { label: 'Portfolio', href: '#portfolio' },
   { label: 'Créations', href: '#creations' },
   { label: 'FAQ', href: '#faq' },
-  { label: 'Charte graphique', to: '/charte' },
+  { label: 'Charte Technique', to: '/charte' },
+  { label: 'CGV & Mentions Légales', to: '/cgv' },
 ];
 
 const serviceLinks = [
@@ -137,6 +138,15 @@ export default function Footer() {
             <p className="text-gray-500 text-sm">
               © 2026 Vitali Studio. Tous droits réservés.
             </p>
+            <div className="flex items-center gap-6 text-sm text-gray-500">
+              <Link to="/charte" className="hover:text-gray-300 transition-colors">
+                Charte Technique
+              </Link>
+              <span>•</span>
+              <Link to="/cgv" className="hover:text-gray-300 transition-colors">
+                CGV & Mentions Légales
+              </Link>
+            </div>
             <p className="text-gray-500 text-sm">
               Fait avec ❤️ et IA
             </p>
