@@ -92,7 +92,8 @@ const AdminFAQ = () => {
       setShowModal(false);
       fetchItems();
     } catch (err) {
-      showToast('Erreur lors de la sauvegarde', 'error');
+      console.error('Erreur sauvegarde FAQ:', err);
+      showToast(err.message || 'Erreur lors de la sauvegarde', 'error');
     } finally {
       setSaving(false);
     }

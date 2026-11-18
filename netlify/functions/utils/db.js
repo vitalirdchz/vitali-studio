@@ -12,17 +12,31 @@ export async function connectDB() {
   }
 
   if (!cached.promise) {
-    const uri = process.env.MONGODB_URI;
+    const rawUri = process.env.MONGODB_URI;
 
-    if (!uri) {
-      throw new Error('MONGODB_URI environment variable is not defined');
+    if (!rawUri) {
+      throw new Error('La variable d’environnement MONGODB_URI n’est pas configurée sur Netlify.');
     }
 
-    cached.promise = mongoose.connect(uri, {
-      bufferCommands: false,
-    }).then((m) => m);
+    const uri = rawUri.toString().trim().replace(/^["']|["']$/g, '');
+
+    cached.promise = mongoose
+      .connect(uri, {
+        bufferCommands: false,
+        serverSelectionTimeoutMS: 8000,
+      })
+      .then((m) => {
+        cached.conn = m;
+        return m;
+      })
+      .catch((err) => {
+        cached.promise = null;
+        cached.conn = null;
+        console.error('Erreur de connexion MongoDB:', err.message);
+        throw new Error(`Échec de connexion MongoDB: ${err.message}`);
+      });
   }
 
-  cached.conn = await cached.promise;
+  await cached.promise;
   return cached.conn;
 }
