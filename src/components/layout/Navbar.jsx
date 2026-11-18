@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineBars3, HiOutlineXMark } from 'react-icons/hi2';
 import Button from '../ui/Button';
@@ -27,6 +27,8 @@ function smoothScroll(hash) {
 }
 
 export default function Navbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [fiverrUrl, setFiverrUrl] = useState('https://www.fiverr.com');
@@ -62,8 +64,21 @@ export default function Navbar() {
   function handleNavClick(e, link) {
     if (link.href) {
       e.preventDefault();
-      smoothScroll(link.href);
       setMobileOpen(false);
+
+      if (location.pathname !== '/') {
+        // Navigate to homepage with the section anchor
+        navigate('/' + (link.href === '#' ? '' : link.href));
+        if (link.href === '#' || !link.href) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          setTimeout(() => {
+            smoothScroll(link.href);
+          }, 120);
+        }
+      } else {
+        smoothScroll(link.href);
+      }
     } else {
       setMobileOpen(false);
     }

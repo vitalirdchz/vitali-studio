@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import ScrollToTop from './components/ui/ScrollToTop';
 
 const Home = lazy(() => import('./pages/Home'));
 const Charte = lazy(() => import('./pages/Charte'));
@@ -38,6 +39,7 @@ function LoadingFallback() {
 export default function App() {
   return (
     <Suspense fallback={<LoadingFallback />}>
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"

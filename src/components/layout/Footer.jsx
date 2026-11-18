@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { RiTwitterXLine, RiInstagramLine, RiTiktokLine, RiYoutubeLine } from 'react-icons/ri';
 
 const navigationLinks = [
@@ -28,6 +28,33 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/' + (href === '#' ? '' : href));
+      if (href === '#' || !href) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setTimeout(() => {
+          const id = href.replace('#', '');
+          const el = document.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 120);
+      }
+    } else {
+      if (href === '#' || !href) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const id = href.replace('#', '');
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <footer>
       {/* Gradient top border */}
@@ -80,6 +107,7 @@ export default function Footer() {
                     ) : (
                       <a
                         href={link.href}
+                        onClick={(e) => handleNavClick(e, link.href)}
                         className="text-gray-400 hover:text-white text-sm transition-colors duration-200"
                       >
                         {link.label}
@@ -100,6 +128,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
+                      onClick={(e) => handleNavClick(e, link.href)}
                       className="text-gray-400 hover:text-white text-sm transition-colors duration-200"
                     >
                       {link.label}
