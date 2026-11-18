@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { HiArrowRight, HiSparkles } from 'react-icons/hi2';
 import { RiShoppingBag3Line } from 'react-icons/ri';
 import GradientText from '../ui/GradientText';
 import Button from '../ui/Button';
+import { getSettings } from '../../utils/api';
 
 export default function Hero() {
+  const [fiverrUrl, setFiverrUrl] = useState('https://www.fiverr.com');
+  const [heroSubtitle, setHeroSubtitle] = useState('');
+
+  useEffect(() => {
+    getSettings()
+      .then((data) => {
+        if (data?.fiverrUrl) setFiverrUrl(data.fiverrUrl);
+        if (data?.heroSubtitle) setHeroSubtitle(data.heroSubtitle);
+      })
+      .catch(() => {});
+  }, []);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -70,7 +82,11 @@ export default function Hero() {
             variants={itemVariants}
             className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-sans"
           >
-            Je transforme vos longs formats, streams et podcasts en <span className="text-white font-medium">clips viraux à fort engagement</span> (TikTok, Reels, Shorts) grâce à la puissance des workflows IA et un montage dynamique sur-mesure.
+            {heroSubtitle || (
+              <>
+                Je transforme vos longs formats, streams et podcasts en <span className="text-white font-medium">clips viraux à fort engagement</span> (TikTok, Reels, Shorts) grâce à la puissance des workflows IA et un montage dynamique sur-mesure.
+              </>
+            )}
           </motion.p>
 
           {/* Actions */}
@@ -88,7 +104,7 @@ export default function Hero() {
             </Button>
             <Button
               variant="secondary"
-              href="https://www.fiverr.com"
+              href={fiverrUrl}
               icon={<RiShoppingBag3Line className="w-5 h-5 text-accent-cyan" />}
               className="w-full sm:w-auto text-base py-4 px-8"
             >

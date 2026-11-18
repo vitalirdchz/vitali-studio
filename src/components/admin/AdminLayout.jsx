@@ -7,6 +7,7 @@ import {
   HiSparkles,
   HiQuestionMarkCircle,
   HiStar,
+  HiCog6Tooth,
   HiArrowRightOnRectangle,
   HiBars3,
   HiXMark,
@@ -19,6 +20,7 @@ const navItems = [
   { key: 'creations', label: 'Créations', icon: HiSparkles },
   { key: 'faq', label: 'FAQ', icon: HiQuestionMarkCircle },
   { key: 'testimonials', label: 'Avis', icon: HiStar },
+  { key: 'settings', label: 'Paramètres & Fiverr', icon: HiCog6Tooth },
 ];
 
 const AdminLayout = ({ activeSection, onNavigate, onLogout, children }) => {

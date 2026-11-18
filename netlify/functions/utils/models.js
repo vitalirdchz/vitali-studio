@@ -71,3 +71,23 @@ const testimonialSchema = new mongoose.Schema(
 export const Testimonial =
   mongoose.models.Testimonial ||
   mongoose.model('Testimonial', testimonialSchema);
+
+// ── SiteSetting ────────────────────────────────────────────────────────────
+const siteSettingSchema = new mongoose.Schema(
+  {
+    key: { type: String, default: 'global', unique: true },
+    fiverrUrl: { type: String, default: 'https://www.fiverr.com' },
+    heroTitle: { type: String, default: 'Montage Vidéo & Clipping IA Premium' },
+    heroSubtitle: {
+      type: String,
+      default:
+        'Transformez vos contenus longs en clips viraux optimisés pour TikTok, Reels & Shorts — propulsés par l’intelligence artificielle.',
+    },
+    contactEmail: { type: String, default: 'contact@vitalistudio.com' },
+  },
+  { timestamps: true }
+);
+
+export const SiteSetting =
+  mongoose.models.SiteSetting ||
+  mongoose.model('SiteSetting', siteSettingSchema);

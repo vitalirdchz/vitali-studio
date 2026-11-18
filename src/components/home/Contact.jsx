@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { HiPaperAirplane, HiSparkles, HiEnvelope, HiCheckCircle, HiArrowTopRightOnSquare } from 'react-icons/hi2';
 import { RiShoppingBag3Line, RiTiktokLine, RiInstagramLine, RiYoutubeLine, RiTwitterXLine } from 'react-icons/ri';
@@ -6,9 +6,19 @@ import AnimatedSection from '../ui/AnimatedSection';
 import SectionTitle from '../ui/SectionTitle';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
+import { getSettings } from '../../utils/api';
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [fiverrUrl, setFiverrUrl] = useState('https://www.fiverr.com');
+
+  useEffect(() => {
+    getSettings()
+      .then((data) => {
+        if (data?.fiverrUrl) setFiverrUrl(data.fiverrUrl);
+      })
+      .catch(() => {});
+  }, []);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -210,7 +220,7 @@ export default function Contact() {
                 </div>
 
                 <a
-                  href="https://www.fiverr.com"
+                  href={fiverrUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-accent text-white font-bold rounded-2xl shadow-xl shadow-accent-rose/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-base"

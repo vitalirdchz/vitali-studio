@@ -5,7 +5,7 @@ import AnimatedSection from '../ui/AnimatedSection';
 import SectionTitle from '../ui/SectionTitle';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
-import { getServices } from '../../utils/api';
+import { getServices, getSettings } from '../../utils/api';
 
 const DEFAULT_SERVICES = [
   {
@@ -60,6 +60,13 @@ const DEFAULT_SERVICES = [
 export default function Services() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [globalFiverrUrl, setGlobalFiverrUrl] = useState('https://www.fiverr.com');
+
+  useEffect(() => {
+    getSettings().then((data) => {
+      if (data?.fiverrUrl) setGlobalFiverrUrl(data.fiverrUrl);
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -168,7 +175,7 @@ export default function Services() {
                   <div className="pt-4 border-t border-white/5">
                     <Button
                       variant={isHighlight ? 'primary' : 'secondary'}
-                      href={service.ctaLink || 'https://www.fiverr.com'}
+                      href={service.ctaLink || globalFiverrUrl || 'https://www.fiverr.com'}
                       icon={<HiArrowTopRightOnSquare className="w-4 h-4" />}
                       className="w-full justify-center"
                     >

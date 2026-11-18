@@ -7,6 +7,7 @@ import AdminPortfolio from '../admin/AdminPortfolio';
 import AdminCreations from '../admin/AdminCreations';
 import AdminFAQ from '../admin/AdminFAQ';
 import AdminTestimonials from '../admin/AdminTestimonials';
+import AdminSettings from '../admin/AdminSettings';
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -51,6 +52,8 @@ const Admin = () => {
         return <AdminFAQ />;
       case 'testimonials':
         return <AdminTestimonials />;
+      case 'settings':
+        return <AdminSettings />;
       default:
         return <AdminDashboard onNavigate={handleNavigate} />;
     }

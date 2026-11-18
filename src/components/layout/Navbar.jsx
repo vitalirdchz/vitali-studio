@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineBars3, HiOutlineXMark } from 'react-icons/hi2';
 import Button from '../ui/Button';
+import { getSettings } from '../../utils/api';
 
 const navLinks = [
   { label: 'Accueil', href: '#' },
@@ -28,6 +29,15 @@ function smoothScroll(hash) {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [fiverrUrl, setFiverrUrl] = useState('https://www.fiverr.com');
+
+  useEffect(() => {
+    getSettings()
+      .then((data) => {
+        if (data?.fiverrUrl) setFiverrUrl(data.fiverrUrl);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     function onScroll() {
@@ -104,7 +114,7 @@ export default function Navbar() {
 
             {/* Desktop CTA */}
             <div className="hidden lg:block">
-              <Button variant="primary" href="#" className="px-5 py-2 text-sm">
+              <Button variant="primary" href={fiverrUrl} className="px-5 py-2 text-sm">
                 Commander sur Fiverr
               </Button>
             </div>
@@ -169,7 +179,7 @@ export default function Navbar() {
                 transition={{ delay: 0.1 + navLinks.length * 0.05 }}
                 className="mt-4"
               >
-                <Button variant="primary" href="#" className="px-8 py-3">
+                <Button variant="primary" href={fiverrUrl} className="px-8 py-3">
                   Commander sur Fiverr
                 </Button>
               </motion.div>

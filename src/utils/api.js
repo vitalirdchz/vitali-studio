@@ -50,6 +50,17 @@ export function getTestimonials() {
   return fetchAPI('/testimonials');
 }
 
+export function getSettings() {
+  return fetchAPI('/settings');
+}
+
+export function updateSettings(data) {
+  return fetchAPI('/settings', {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+}
+
 // ── Auth ──────────────────────────────────────────────────────────
 
 export function adminLogin(code) {
@@ -69,15 +80,16 @@ export function createService(data) {
 }
 
 export function updateService(id, data) {
-  return fetchAPI(`/services/${id}`, {
+  return fetchAPI(`/services?id=${id}`, {
     method: 'PUT',
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, id }),
   });
 }
 
 export function deleteService(id) {
-  return fetchAPI(`/services/${id}`, {
+  return fetchAPI(`/services?id=${id}`, {
     method: 'DELETE',
+    body: JSON.stringify({ id }),
   });
 }
 
@@ -91,15 +103,16 @@ export function createPortfolioItem(data) {
 }
 
 export function updatePortfolioItem(id, data) {
-  return fetchAPI(`/portfolio/${id}`, {
+  return fetchAPI(`/portfolio?id=${id}`, {
     method: 'PUT',
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, id }),
   });
 }
 
 export function deletePortfolioItem(id) {
-  return fetchAPI(`/portfolio/${id}`, {
+  return fetchAPI(`/portfolio?id=${id}`, {
     method: 'DELETE',
+    body: JSON.stringify({ id }),
   });
 }
 
@@ -113,15 +126,16 @@ export function createFAQ(data) {
 }
 
 export function updateFAQ(id, data) {
-  return fetchAPI(`/faq/${id}`, {
+  return fetchAPI(`/faq?id=${id}`, {
     method: 'PUT',
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, id }),
   });
 }
 
 export function deleteFAQ(id) {
-  return fetchAPI(`/faq/${id}`, {
+  return fetchAPI(`/faq?id=${id}`, {
     method: 'DELETE',
+    body: JSON.stringify({ id }),
   });
 }
 
@@ -135,14 +149,15 @@ export function createTestimonial(data) {
 }
 
 export function updateTestimonial(id, data) {
-  return fetchAPI(`/testimonials/${id}`, {
+  return fetchAPI(`/testimonials?id=${id}`, {
     method: 'PUT',
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, id }),
   });
 }
 
 export function deleteTestimonial(id) {
-  return fetchAPI(`/testimonials/${id}`, {
+  return fetchAPI(`/testimonials?id=${id}`, {
     method: 'DELETE',
+    body: JSON.stringify({ id }),
   });
 }
