@@ -17,22 +17,27 @@ export const handler = async (event) => {
       };
     }
 
-    const { code } = JSON.parse(event.body);
-    const expectedCode = process.env.ADMIN_ACCESS_CODE;
+    const body = typeof event.body === 'string' ? JSON.parse(event.body || '{}') : (event.body || {});
+    const code = (body.code || '').toString().trim().replace(/^["']|["']$/g, '');
+    const rawExpected = process.env.ADMIN_ACCESS_CODE;
 
-    if (!expectedCode) {
+    if (!rawExpected) {
       return {
         statusCode: 500,
         headers,
-        body: JSON.stringify({ error: 'Server misconfiguration: ADMIN_ACCESS_CODE not set' }),
+        body: JSON.stringify({
+          error: 'Variable ADMIN_ACCESS_CODE non trouvée sur Netlify. N’oubliez pas de REDÉPLOYER le site après avoir ajouté la variable !'
+        }),
       };
     }
+
+    const expectedCode = rawExpected.toString().trim().replace(/^["']|["']$/g, '');
 
     if (!code || code !== expectedCode) {
       return {
         statusCode: 401,
         headers,
-        body: JSON.stringify({ success: false, error: 'Invalid access code' }),
+        body: JSON.stringify({ success: false, error: 'Code d’accès invalide' }),
       };
     }
 

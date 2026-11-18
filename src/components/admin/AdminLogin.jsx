@@ -14,15 +14,16 @@ const AdminLogin = ({ onLogin }) => {
     setLoading(true);
 
     try {
-      const result = await adminLogin(code);
+      const cleanCode = code.trim();
+      const result = await adminLogin(cleanCode);
       if (result.success) {
-        localStorage.setItem('vitali_admin_token', code);
+        localStorage.setItem('vitali_admin_token', cleanCode);
         onLogin();
       } else {
-        setError("Code d'accès incorrect");
+        setError(result.error || "Code d'accès incorrect");
       }
     } catch (err) {
-      setError("Code d'accès incorrect");
+      setError(err.message || "Code d'accès incorrect");
     } finally {
       setLoading(false);
     }
