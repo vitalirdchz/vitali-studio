@@ -4,9 +4,23 @@ import mongoose from 'mongoose';
 const serviceSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
+    slug: { type: String },
+    category: { type: String, default: 'video' },
     description: { type: String },
     icon: { type: String },
     features: [{ type: String }],
+    tiers: [
+      {
+        name: { type: String }, // e.g. Starter, Pro, Premium
+        tagline: { type: String },
+        price: { type: String },
+        clipsCount: { type: String },
+        delivery: { type: String },
+        features: [{ type: String }],
+        ctaLink: { type: String },
+      },
+    ],
+    rules: [{ type: String }],
     ctaLink: { type: String },
     ctaText: { type: String },
     order: { type: Number, default: 0 },
@@ -26,11 +40,15 @@ const portfolioItemSchema = new mongoose.Schema(
     clientName: { type: String },
     thumbnailUrl: { type: String },
     videoUrl: { type: String },
+    iframeUrl: { type: String },
+    githubUrl: { type: String },
+    demoUrl: { type: String },
     category: {
       type: String,
-      enum: ['portfolio', 'creation'],
+      enum: ['portfolio', 'creation', 'labo'],
+      default: 'portfolio',
     },
-    tags: [{ type: String }],
+    tags: [{ type: String }], // 'Vidéo', 'Data', 'Web', 'Python', 'IA'
     featured: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
   },

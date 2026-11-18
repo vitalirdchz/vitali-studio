@@ -5,6 +5,10 @@ import Footer from './components/layout/Footer';
 import ScrollToTop from './components/ui/ScrollToTop';
 
 const Home = lazy(() => import('./pages/Home'));
+const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
+const LaboPage = lazy(() => import('./pages/LaboPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
 const Charte = lazy(() => import('./pages/Charte'));
 const Cgv = lazy(() => import('./pages/Cgv'));
 const Admin = lazy(() => import('./pages/Admin'));
@@ -13,7 +17,7 @@ function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main className="min-h-screen">{children}</main>
       <Footer />
     </>
   );
@@ -21,15 +25,11 @@ function Layout({ children }) {
 
 function LoadingFallback() {
   return (
-    <div className="min-h-screen bg-dark-800 flex items-center justify-center">
+    <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
-        <div className="relative w-16 h-16">
-          <div className="absolute inset-0 rounded-full bg-gradient-accent opacity-20 animate-ping" />
-          <div className="absolute inset-2 rounded-full bg-gradient-accent opacity-40 animate-pulse" />
-          <div className="absolute inset-4 rounded-full bg-gradient-accent opacity-60 animate-pulse" />
-        </div>
-        <span className="gradient-text font-display text-xl font-bold tracking-wider">
-          VITALI STUDIO
+        <div className="w-8 h-8 rounded-full border-2 border-white border-t-transparent animate-spin" />
+        <span className="font-mono text-xs text-gray-500 tracking-widest uppercase">
+          VITALI STUDIO // CHARGEMENT
         </span>
       </div>
     </div>
@@ -46,6 +46,38 @@ export default function App() {
           element={
             <Layout>
               <Home />
+            </Layout>
+          }
+        />
+        <Route
+          path="/services"
+          element={
+            <Layout>
+              <ServicesPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/portfolio"
+          element={
+            <Layout>
+              <PortfolioPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/labo"
+          element={
+            <Layout>
+              <LaboPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <Layout>
+              <ContactPage />
             </Layout>
           }
         />

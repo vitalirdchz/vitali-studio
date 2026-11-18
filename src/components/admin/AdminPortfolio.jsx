@@ -22,6 +22,7 @@ const emptyForm = {
   clientName: '',
   thumbnailUrl: '',
   videoUrl: '',
+  iframeUrl: '',
   tags: '',
   featured: false,
   order: 0,
@@ -72,6 +73,7 @@ const AdminPortfolio = () => {
       clientName: item.clientName || '',
       thumbnailUrl: item.thumbnailUrl || '',
       videoUrl: item.videoUrl || '',
+      iframeUrl: item.iframeUrl || '',
       tags: Array.isArray(item.tags) ? item.tags.join(', ') : '',
       featured: item.featured || false,
       order: item.order || 0,
@@ -331,9 +333,26 @@ const AdminPortfolio = () => {
                       name="videoUrl"
                       value={form.videoUrl}
                       onChange={handleChange}
+                      placeholder="Lien direct vidéo ou page"
                       className="bg-dark-600 border border-white/10 rounded-xl px-4 py-3 w-full text-white focus:border-accent-rose focus:outline-none"
                     />
                   </div>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">
+                    Lien Iframe Embed (YouTube / TikTok / Vimeo)
+                  </label>
+                  <input
+                    type="text"
+                    name="iframeUrl"
+                    value={form.iframeUrl}
+                    onChange={handleChange}
+                    placeholder="https://www.youtube-nocookie.com/embed/..."
+                    className="bg-dark-600 border border-white/10 rounded-xl px-4 py-3 w-full text-white focus:border-accent-rose focus:outline-none"
+                  />
+                  <p className="text-[11px] text-gray-500 mt-1">
+                    Permet d’afficher un lecteur vidéo dynamique sans héberger de fichiers lourds sur le serveur.
+                  </p>
                 </div>
                 <div>
                   <label className="block text-sm text-gray-400 mb-1">Tags</label>

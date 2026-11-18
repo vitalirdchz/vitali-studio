@@ -16,7 +16,11 @@ export const handler = async (event) => {
       const category = event.queryStringParameters?.category;
 
       if (category) {
-        filter.category = category;
+        if (category === 'labo' || category === 'creation') {
+          filter.category = { $in: ['labo', 'creation'] };
+        } else {
+          filter.category = category;
+        }
       }
 
       const items = await PortfolioItem.find(filter).sort({ order: 1, createdAt: -1 });

@@ -5,11 +5,25 @@ export default {
     extend: {
       colors: {
         dark: {
-          900: '#0f0f1a',
-          800: '#181825',
-          700: '#1e1e2e',
-          600: '#2a2a3d',
-          500: '#3a3a52',
+          950: '#050505',
+          900: '#0A0A0A', // Main Deep Anthracite Background
+          850: '#111111',
+          800: '#161616', // Bento Surface 1
+          750: '#1c1c1c',
+          700: '#222222', // Bento Surface 2
+          600: '#2c2c2c',
+          500: '#404040',
+        },
+        tech: {
+          bg: '#0A0A0A',
+          card: '#121212',
+          cardHover: '#181818',
+          border: 'rgba(255, 255, 255, 0.08)',
+          borderHover: 'rgba(255, 255, 255, 0.18)',
+          light: '#F3F4F6',
+          muted: '#9CA3AF',
+          subtle: '#6B7280',
+          accent: '#00F2FE',
         },
         accent: {
           rose: '#FF0050',
@@ -18,31 +32,12 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['Poppins', 'Inter', 'sans-serif'],
+        display: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'SF Mono', 'Menlo', 'monospace'],
       },
       backgroundImage: {
         'gradient-accent': 'linear-gradient(135deg, #FF0050, #00F2FE)',
-        'gradient-accent-hover': 'linear-gradient(135deg, #e6004a, #00d9e5)',
-        'gradient-radial': 'radial-gradient(ellipse at center, rgba(255,0,80,0.08) 0%, transparent 70%)',
-      },
-      animation: {
-        'gradient-x': 'gradient-x 3s ease infinite',
-        'fade-in': 'fadeIn 0.6s ease-out forwards',
-        'slide-up': 'slideUp 0.6s ease-out forwards',
-      },
-      keyframes: {
-        'gradient-x': {
-          '0%, 100%': { 'background-position': '0% 50%' },
-          '50%': { 'background-position': '100% 50%' },
-        },
-        fadeIn: {
-          from: { opacity: 0 },
-          to: { opacity: 1 },
-        },
-        slideUp: {
-          from: { opacity: 0, transform: 'translateY(30px)' },
-          to: { opacity: 1, transform: 'translateY(0)' },
-        },
+        'gradient-tech': 'linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01))',
       },
     },
   },

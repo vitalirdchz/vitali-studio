@@ -42,6 +42,10 @@ export function getCreations() {
   return fetchAPI('/portfolio?category=creation');
 }
 
+export function getLabo() {
+  return fetchAPI('/portfolio?category=labo');
+}
+
 export function getFAQ() {
   return fetchAPI('/faq');
 }

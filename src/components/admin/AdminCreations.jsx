@@ -22,6 +22,7 @@ const emptyForm = {
   clientName: '',
   thumbnailUrl: '',
   videoUrl: '',
+  iframeUrl: '',
   tags: '',
   featured: false,
   order: 0,
@@ -72,6 +73,7 @@ const AdminCreations = () => {
       clientName: item.clientName || '',
       thumbnailUrl: item.thumbnailUrl || '',
       videoUrl: item.videoUrl || '',
+      iframeUrl: item.iframeUrl || '',
       tags: Array.isArray(item.tags) ? item.tags.join(', ') : '',
       featured: item.featured || false,
       order: item.order || 0,
@@ -94,7 +96,7 @@ const AdminCreations = () => {
       const payload = {
         ...form,
         order: Number(form.order),
-        category: 'creation',
+        category: 'labo',
         tags: form.tags
           .split(',')
           .map((t) => t.trim())
@@ -331,9 +333,23 @@ const AdminCreations = () => {
                       name="videoUrl"
                       value={form.videoUrl}
                       onChange={handleChange}
+                      placeholder="Lien direct vidéo ou démo"
                       className="bg-dark-600 border border-white/10 rounded-xl px-4 py-3 w-full text-white focus:border-accent-rose focus:outline-none"
                     />
                   </div>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">
+                    Lien Iframe Embed (YouTube / TikTok / Vimeo / Sandbox)
+                  </label>
+                  <input
+                    type="text"
+                    name="iframeUrl"
+                    value={form.iframeUrl}
+                    onChange={handleChange}
+                    placeholder="https://www.youtube-nocookie.com/embed/..."
+                    className="bg-dark-600 border border-white/10 rounded-xl px-4 py-3 w-full text-white focus:border-accent-rose focus:outline-none"
+                  />
                 </div>
                 <div>
                   <label className="block text-sm text-gray-400 mb-1">Tags</label>

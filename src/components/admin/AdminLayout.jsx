@@ -17,7 +17,7 @@ const navItems = [
   { key: 'dashboard', label: 'Tableau de bord', icon: HiSquares2X2 },
   { key: 'services', label: 'Services', icon: HiWrenchScrewdriver },
   { key: 'portfolio', label: 'Portfolio', icon: HiPhoto },
-  { key: 'creations', label: 'Créations', icon: HiSparkles },
+  { key: 'creations', label: 'Le Labo (R&D)', icon: HiSparkles },
   { key: 'faq', label: 'FAQ', icon: HiQuestionMarkCircle },
   { key: 'testimonials', label: 'Avis', icon: HiStar },
   { key: 'settings', label: 'Paramètres & Fiverr', icon: HiCog6Tooth },
