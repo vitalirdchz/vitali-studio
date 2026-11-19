@@ -149,3 +149,72 @@ const realisationSchema = new mongoose.Schema(
 export const Realisation =
   mongoose.models.Realisation ||
   mongoose.model('Realisation', realisationSchema);
+
+// ── ServiceProposal (Propositions de services clients) ────────────────────────
+const serviceProposalSchema = new mongoose.Schema(
+  {
+    contact: { type: String, required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    status: {
+      type: String,
+      enum: ['Nouveau', 'Lu', 'Traité'],
+      default: 'Nouveau',
+    },
+  },
+  { timestamps: true }
+);
+
+export const ServiceProposal =
+  mongoose.models.ServiceProposal ||
+  mongoose.model('ServiceProposal', serviceProposalSchema);
+
+// ── ClippingConfig (Configuration de la page /services/clipping) ──────────────
+const clippingConfigSchema = new mongoose.Schema(
+  {
+    key: { type: String, default: 'clipping', unique: true },
+    title: {
+      type: String,
+      default: 'Clipping Vidéo (TikTok / Reels / Shorts)',
+    },
+    subtitle: {
+      type: String,
+      default:
+        'Transformez vos vidéos longues en formats courts viraux et percutants sans aucun abonnement.',
+    },
+    fiverrUrl: { type: String, default: 'https://www.fiverr.com' },
+    packs: [
+      {
+        id: { type: String },
+        name: { type: String },
+        tagline: { type: String },
+        badge: { type: String },
+        price: { type: String },
+        clipsCount: { type: String },
+        delivery: { type: String },
+        description: { type: String },
+        features: [{ type: String }],
+        fiverrUrl: { type: String },
+        highlight: { type: Boolean, default: false },
+      },
+    ],
+    options: [
+      {
+        id: { type: String },
+        title: { type: String },
+        description: { type: String },
+        tag: { type: String },
+      },
+    ],
+    qualityAdvice: {
+      type: String,
+      default:
+        "La résolution 1080p n'est pas obligatoire mais fortement conseillée pour obtenir un rendu net après recadrage vertical (9:16). Avec une source de basse qualité, le rendu peut être dégradé. Il est possible de tenter une amélioration par IA sur demande, sans promesse ni garantie sur le résultat final.",
+    },
+  },
+  { timestamps: true }
+);
+
+export const ClippingConfig =
+  mongoose.models.ClippingConfig ||
+  mongoose.model('ClippingConfig', clippingConfigSchema);

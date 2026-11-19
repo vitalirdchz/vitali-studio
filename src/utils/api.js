@@ -220,3 +220,43 @@ export function deleteTestimonial(id) {
     body: JSON.stringify({ id }),
   });
 }
+
+// ── Service Proposals (Propositions clients) ──────────────────────
+
+export function createServiceProposal(data) {
+  return fetchAPI('/service-proposals', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export function getServiceProposals() {
+  return fetchAPI('/service-proposals');
+}
+
+export function updateServiceProposal(id, data) {
+  return fetchAPI(`/service-proposals?id=${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ ...data, id }),
+  });
+}
+
+export function deleteServiceProposal(id) {
+  return fetchAPI(`/service-proposals?id=${id}`, {
+    method: 'DELETE',
+    body: JSON.stringify({ id }),
+  });
+}
+
+// ── Clipping Config (Packs, Options, Conseils) ────────────────────
+
+export function getClippingConfig() {
+  return fetchAPI('/clipping-config');
+}
+
+export function updateClippingConfig(data) {
+  return fetchAPI('/clipping-config', {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+}

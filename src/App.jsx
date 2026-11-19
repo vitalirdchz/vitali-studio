@@ -6,6 +6,7 @@ import ScrollToTop from './components/ui/ScrollToTop';
 
 const Home = lazy(() => import('./pages/Home'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const ClippingServicePage = lazy(() => import('./pages/ClippingServicePage'));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
 const LaboPage = lazy(() => import('./pages/LaboPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
@@ -54,6 +55,14 @@ export default function App() {
           element={
             <Layout>
               <ServicesPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/services/clipping"
+          element={
+            <Layout>
+              <ClippingServicePage />
             </Layout>
           }
         />
