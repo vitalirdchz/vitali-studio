@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import AdminLogin from '../admin/AdminLogin';
 import AdminLayout from '../admin/AdminLayout';
 import AdminDashboard from '../admin/AdminDashboard';
+import AdminProjects from '../admin/AdminProjects';
+import AdminRealisations from '../admin/AdminRealisations';
 import AdminServices from '../admin/AdminServices';
 import AdminPortfolio from '../admin/AdminPortfolio';
 import AdminCreations from '../admin/AdminCreations';
@@ -42,6 +44,10 @@ const Admin = () => {
     switch (activeSection) {
       case 'dashboard':
         return <AdminDashboard onNavigate={handleNavigate} />;
+      case 'projects':
+        return <AdminProjects />;
+      case 'realisations':
+        return <AdminRealisations />;
       case 'services':
         return <AdminServices />;
       case 'portfolio':

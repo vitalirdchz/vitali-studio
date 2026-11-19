@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   HiSquares2X2,
+  HiRectangleGroup,
+  HiVideoCamera,
   HiWrenchScrewdriver,
   HiPhoto,
   HiSparkles,
@@ -15,8 +17,10 @@ import {
 
 const navItems = [
   { key: 'dashboard', label: 'Tableau de bord', icon: HiSquares2X2 },
+  { key: 'projects', label: 'Projets (Domaines)', icon: HiRectangleGroup },
+  { key: 'realisations', label: 'Réalisations (9:16)', icon: HiVideoCamera },
   { key: 'services', label: 'Services', icon: HiWrenchScrewdriver },
-  { key: 'portfolio', label: 'Portfolio', icon: HiPhoto },
+  { key: 'portfolio', label: 'Portfolio (Ancien)', icon: HiPhoto },
   { key: 'creations', label: 'Le Labo (R&D)', icon: HiSparkles },
   { key: 'faq', label: 'FAQ', icon: HiQuestionMarkCircle },
   { key: 'testimonials', label: 'Avis', icon: HiStar },

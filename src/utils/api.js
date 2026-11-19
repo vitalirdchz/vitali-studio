@@ -65,6 +65,61 @@ export function updateSettings(data) {
   });
 }
 
+// ── Projects (Domaines Bento) CRUD ────────────────────────────────
+
+export function getProjects() {
+  return fetchAPI('/projects');
+}
+
+export function createProject(data) {
+  return fetchAPI('/projects', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export function updateProject(id, data) {
+  return fetchAPI(`/projects?id=${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ ...data, id }),
+  });
+}
+
+export function deleteProject(id) {
+  return fetchAPI(`/projects?id=${id}`, {
+    method: 'DELETE',
+    body: JSON.stringify({ id }),
+  });
+}
+
+// ── Realisations (Démonstrations 9:16) CRUD ───────────────────────
+
+export function getRealisations(category) {
+  const query = category && category !== 'Tous' ? `?category=${encodeURIComponent(category)}` : '';
+  return fetchAPI(`/realisations${query}`);
+}
+
+export function createRealisation(data) {
+  return fetchAPI('/realisations', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export function updateRealisation(id, data) {
+  return fetchAPI(`/realisations?id=${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ ...data, id }),
+  });
+}
+
+export function deleteRealisation(id) {
+  return fetchAPI(`/realisations?id=${id}`, {
+    method: 'DELETE',
+    body: JSON.stringify({ id }),
+  });
+}
+
 // ── Auth ──────────────────────────────────────────────────────────
 
 export function adminLogin(code) {

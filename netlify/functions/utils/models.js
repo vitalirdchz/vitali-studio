@@ -109,3 +109,43 @@ const siteSettingSchema = new mongoose.Schema(
 export const SiteSetting =
   mongoose.models.SiteSetting ||
   mongoose.model('SiteSetting', siteSettingSchema);
+
+// ── Project (Domaines d’activité du studio) ──────────────────────────────────
+const projectSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    status: { type: String, enum: ['Actif', 'À venir'], default: 'Actif' },
+    badge: { type: String, default: 'Actif' },
+    description: { type: String, required: true },
+    tags: [{ type: String }],
+    order: { type: Number, default: 0 },
+    active: { type: Boolean, default: true },
+  },
+  { timestamps: true }
+);
+
+export const Project =
+  mongoose.models.Project || mongoose.model('Project', projectSchema);
+
+// ── Realisation (Démonstrations 9:16) ────────────────────────────────────────
+const realisationSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    category: {
+      type: String,
+      enum: ['Podcast', 'Live', 'Conférence', 'Vidéo longue'],
+      default: 'Podcast',
+      required: true,
+    },
+    description: { type: String },
+    videoUrl: { type: String, required: true },
+    thumbnailUrl: { type: String },
+    order: { type: Number, default: 0 },
+    active: { type: Boolean, default: true },
+  },
+  { timestamps: true }
+);
+
+export const Realisation =
+  mongoose.models.Realisation ||
+  mongoose.model('Realisation', realisationSchema);
