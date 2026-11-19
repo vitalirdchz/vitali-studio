@@ -4,6 +4,7 @@ import { RiTwitterXLine, RiInstagramLine, RiTiktokLine, RiYoutubeLine } from 're
 
 const navigationLinks = [
   { label: 'Accueil', to: '/' },
+  { label: 'À propos', to: '/a-propos' },
   { label: 'Services', to: '/services' },
   { label: 'Portfolio Clients', to: '/portfolio' },
   { label: 'Le Labo (R&D)', to: '/labo' },

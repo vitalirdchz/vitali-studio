@@ -54,65 +54,69 @@ export default function ServicesPage() {
   };
 
   return (
-    <div className="pt-28 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* ── HEADER ──────────────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="max-w-3xl mb-16"
-      >
-        <span className="text-xs font-mono uppercase tracking-widest text-gray-500">
-          CATALOGUE DES OFFRES
-        </span>
-        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mt-2 mb-4">
-          Services Numériques & Solutions Sur-Mesure
-        </h1>
-        <p className="text-gray-400 text-base leading-relaxed">
-          Une approche technique et créative sans intermédiaire. Du clipping vertical haute rétention aux pipelines d’automatisation, chaque offre répond à des critères stricts de rigueur et d’efficacité.
-        </p>
-      </motion.div>
+    <div className="relative overflow-hidden">
+      {/* Halo radial diffus en arrière-plan */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[450px] pointer-events-none radial-halo opacity-90 z-0" />
 
-      {/* ── SECTION 1 : SERVICE ACTIF (MISE EN VALEUR) ──────────── */}
-      <section className="mb-24">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400">
-              Service Actif // Prêt à la commande
-            </h2>
-          </div>
-          <span className="text-xs font-mono text-gray-500 hidden sm:inline">
-            Formule unique • Aucun abonnement
-          </span>
-        </div>
-
-        {/* Featured Main Card */}
+      <div className="relative z-10 pt-28 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        {/* ── HEADER ──────────────────────────────────────────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          onClick={() => navigate('/services/clipping')}
-          className="group relative cursor-pointer rounded-2xl bg-[#0F0F0F] border border-white/15 p-8 sm:p-12 hover:border-white/30 transition-all duration-300 shadow-2xl hover:shadow-white/[0.02]"
+          transition={{ duration: 0.4 }}
+          className="max-w-3xl mb-16"
         >
-          {/* Subtle gradient glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] via-transparent to-white/[0.01] rounded-2xl pointer-events-none" />
+          <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">
+            CATALOGUE DES OFFRES
+          </span>
+          <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mt-2 mb-4">
+            Services Numériques & Solutions Sur-Mesure
+          </h1>
+          <p className="text-gray-400 text-base leading-relaxed">
+            Une approche technique et créative sans intermédiaire. Du clipping vertical haute rétention aux pipelines d’automatisation, chaque offre répond à des critères stricts de rigueur et d’efficacité.
+          </p>
+        </motion.div>
 
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
-            <div className="space-y-4 max-w-3xl">
-              <div className="flex flex-wrap items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white text-black flex items-center justify-center flex-shrink-0 font-bold shadow-md">
-                  <HiVideoCamera className="w-6 h-6" />
-                </div>
-                <div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-mono uppercase">
-                    ● Disponible immédiatement
-                  </span>
-                </div>
-              </div>
+        {/* ── SECTION 1 : SERVICE ACTIF (MISE EN VALEUR) ──────────── */}
+        <section className="mb-24">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+              <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400">
+                Service Actif // Prêt à la commande
+              </h2>
+            </div>
+            <span className="text-xs font-mono text-gray-500 hidden sm:inline">
+              Formule unique • Aucun abonnement
+            </span>
+          </div>
 
-              <h3 className="font-display text-2xl sm:text-3xl font-bold text-white group-hover:text-white transition-colors">
-                Clipping Vidéo (TikTok / Reels / Shorts)
+          {/* Featured Main Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            onClick={() => navigate('/services/clipping')}
+            className="group relative cursor-pointer rounded-2xl bg-[#111113] border border-white/10 hover:border-indigo-500/30 p-8 sm:p-12 transition-all duration-300 shadow-2xl hover:shadow-indigo-500/[0.03]"
+          >
+            {/* Subtle gradient glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] via-transparent to-white/[0.01] rounded-2xl pointer-events-none" />
+
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
+              <div className="space-y-4 max-w-3xl">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-white text-black flex items-center justify-center flex-shrink-0 font-bold shadow-md">
+                    <HiVideoCamera className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[11px] font-mono uppercase font-medium">
+                      ● Disponible immédiatement
+                    </span>
+                  </div>
+                </div>
+
+                <h3 className="font-display text-2xl sm:text-3xl font-bold text-white group-hover:text-white transition-colors">
+                  Clipping Vidéo (TikTok / Reels / Shorts)
               </h3>
 
               <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
@@ -369,6 +373,7 @@ export default function ServicesPage() {
           )}
         </div>
       </section>
+      </div>
     </div>
   );
 }

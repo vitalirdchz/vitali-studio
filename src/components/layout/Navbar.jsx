@@ -6,6 +6,7 @@ import { getSettings } from '../../utils/api';
 
 const NAV_ITEMS = [
   { label: 'Accueil', to: '/' },
+  { label: 'À propos', to: '/a-propos' },
   { label: 'Services', to: '/services' },
   { label: 'Portfolio', to: '/portfolio' },
   { label: 'Labo', to: '/labo' },

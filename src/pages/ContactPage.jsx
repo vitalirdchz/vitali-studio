@@ -94,12 +94,16 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="pt-28 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* ── HEADER ──────────────────────────────────────────────── */}
-      <div className="max-w-3xl mb-16">
-        <span className="text-xs font-mono uppercase tracking-widest text-gray-500">
-          ENTRER EN CONTACT
-        </span>
+    <div className="relative overflow-hidden">
+      {/* Halo radial diffus en arrière-plan */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[450px] pointer-events-none radial-halo opacity-90 z-0" />
+
+      <div className="relative z-10 pt-28 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        {/* ── HEADER ──────────────────────────────────────────────── */}
+        <div className="max-w-3xl mb-16">
+          <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">
+            ENTRER EN CONTACT
+          </span>
         <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mt-2 mb-4">
           Discutons de Votre Projet
         </h1>
@@ -342,6 +346,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 }

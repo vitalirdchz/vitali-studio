@@ -158,75 +158,79 @@ export default function ClippingServicePage() {
   };
 
   return (
-    <div className="pt-28 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* ── RETOUR VERS /SERVICES ───────────────────────────────── */}
-      <div className="mb-8">
-        <Link
-          to="/services"
-          className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-gray-400 hover:text-white transition group py-1.5 px-3 rounded-lg bg-white/5 border border-white/10 hover:border-white/25"
-        >
-          <HiArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
-          <span>Retour aux services</span>
-        </Link>
-      </div>
+    <div className="relative overflow-hidden">
+      {/* Halo radial diffus en arrière-plan */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[450px] pointer-events-none radial-halo opacity-90 z-0" />
 
-      {/* ── EN-TÊTE DU SERVICE ──────────────────────────────────── */}
-      <div className="max-w-3xl mb-16">
-        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-mono uppercase mb-3">
-          ● Service Actif & Prêt à la commande
+      <div className="relative z-10 pt-28 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        {/* ── RETOUR VERS /SERVICES ───────────────────────────────── */}
+        <div className="mb-8">
+          <Link
+            to="/services"
+            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-gray-400 hover:text-white transition group py-1.5 px-3 rounded-lg bg-white/5 border border-white/10 hover:border-indigo-500/30"
+          >
+            <HiArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
+            <span>Retour aux services</span>
+          </Link>
         </div>
-        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mb-4">
-          Clipping Vidéo (Shorts / Reels / TikTok)
-        </h1>
-        <p className="text-gray-400 text-base leading-relaxed">
-          Transformez vos vidéos longues, podcasts, replays de lives et conférences en extraits verticaux (9:16) haute performance. Des packs clairs et calibrés par nombre d’extraits, avec commande directe et sécurisée.
-        </p>
 
-        {/* Note importante : AUCUN abonnement */}
-        <div className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-gray-400 bg-[#121212] px-3.5 py-1.5 rounded-lg border border-white/10">
-          <span className="w-1.5 h-1.5 rounded-full bg-white" />
-          <span>Paiement unique au pack • Aucun abonnement mensuel imposé</span>
-        </div>
-      </div>
-
-      {/* ── SECTION 1 : LES 3 PACKS (PAIEMENT UNIQUE) ───────────── */}
-      <section className="mb-24">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <span className="text-xs font-mono uppercase tracking-widest text-gray-500">
-              FORMULES AU NOMBRE D’EXTRAITS
-            </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mt-1">
-              Les 3 Packs Clés en Main
-            </h2>
+        {/* ── EN-TÊTE DU SERVICE ──────────────────────────────────── */}
+        <div className="max-w-3xl mb-16">
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[11px] font-mono uppercase mb-3 font-medium">
+            ● Service Actif & Prêt à la commande
           </div>
-          <span className="text-xs font-mono text-gray-500 hidden sm:inline">
-            Tarifs transparents • Prêt à poster
-          </span>
+          <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mb-4">
+            Clipping Vidéo (Shorts / Reels / TikTok)
+          </h1>
+          <p className="text-gray-400 text-base leading-relaxed">
+            Transformez vos vidéos longues, podcasts, replays de lives et conférences en extraits verticaux (9:16) haute performance. Des packs clairs et calibrés par nombre d’extraits, avec commande directe et sécurisée.
+          </p>
+
+          {/* Note importante : AUCUN abonnement */}
+          <div className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-gray-400 bg-[#111113] px-3.5 py-1.5 rounded-lg border border-white/10">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+            <span>Paiement unique au pack • Aucun abonnement mensuel imposé</span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {packs.map((pack, idx) => {
-            const isHighlight = pack.highlight;
-            const targetUrl = getFiverrLink(pack);
+        {/* ── SECTION 1 : LES 3 PACKS (PAIEMENT UNIQUE) ───────────── */}
+        <section className="mb-24">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">
+                FORMULES AU NOMBRE D’EXTRAITS
+              </span>
+              <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mt-1">
+                Les 3 Packs Clés en Main
+              </h2>
+            </div>
+            <span className="text-xs font-mono text-gray-500 hidden sm:inline">
+              Tarifs transparents • Prêt à poster
+            </span>
+          </div>
 
-            return (
-              <motion.div
-                key={pack.id || idx}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className={`bento-card p-8 flex flex-col justify-between relative ${
-                  isHighlight
-                    ? 'border-white/30 bg-[#141414] shadow-2xl shadow-white/[0.03]'
-                    : 'bg-[#101010] border-white/10'
-                }`}
-              >
-                {isHighlight && (
-                  <div className="absolute -top-3.5 right-6 bg-white text-black text-[10px] font-mono font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
-                    Recommandé
-                  </div>
-                )}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+            {packs.map((pack, idx) => {
+              const isHighlight = pack.highlight;
+              const targetUrl = getFiverrLink(pack);
+
+              return (
+                <motion.div
+                  key={pack.id || idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: idx * 0.1 }}
+                  className={`bento-card p-8 flex flex-col justify-between relative ${
+                    isHighlight
+                      ? 'border-indigo-500/40 bg-[#131317] shadow-2xl shadow-indigo-500/[0.04]'
+                      : 'bg-[#111113] border-white/10 hover:border-indigo-500/30'
+                  }`}
+                >
+                  {isHighlight && (
+                    <div className="absolute -top-3.5 right-6 bg-indigo-500 text-white text-[10px] font-mono font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+                      Recommandé
+                    </div>
+                  )}
 
                 <div>
                   {/* Badge & Nom */}
@@ -412,6 +416,7 @@ export default function ClippingServicePage() {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 }

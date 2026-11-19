@@ -8,8 +8,8 @@
   }
 
   body {
-    background-color: #0A0A0A;
-    color: #F3F4F6;
+    background-color: #09090B;
+    color: #F5F5F7;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
@@ -18,18 +18,26 @@
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0A0A0A;
+    background: #09090B;
   }
   ::-webkit-scrollbar-thumb {
-    background: #262626;
+    background: #27272A;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #404040;
+    background: #3F3F46;
   }
 }
 
 @layer components {
+  .radial-halo {
+    background: radial-gradient(ellipse 65% 45% at 50% 0%, rgba(99, 102, 241, 0.09), transparent 70%);
+  }
+
+  .radial-halo-subtle {
+    background: radial-gradient(ellipse 60% 40% at 50% 10%, rgba(99, 102, 241, 0.06), transparent 70%);
+  }
+
   .gradient-text {
     @apply bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent;
   }
@@ -39,11 +47,11 @@
   }
 
   .bento-card {
-    @apply bg-[#121212] border border-white/10 rounded-2xl transition-all duration-300 hover:border-white/20 hover:bg-[#161616];
+    @apply bg-[#111113] border border-white/10 rounded-2xl transition-all duration-300 hover:border-indigo-500/30 hover:bg-[#151518];
   }
 
   .glass {
-    @apply bg-[#121212]/80 backdrop-blur-xl border border-white/10;
+    @apply bg-[#111113]/80 backdrop-blur-xl border border-white/10;
   }
 
   .btn-primary {
@@ -54,13 +62,13 @@
 
   .btn-secondary {
     @apply relative inline-flex items-center justify-center gap-2 px-6 py-3
-           bg-[#181818] text-white font-medium rounded-xl border border-white/10 text-sm
-           transition-all duration-200 hover:border-white/25 hover:bg-[#222222]
+           bg-[#161619] text-white font-medium rounded-xl border border-white/10 text-sm
+           transition-all duration-200 hover:border-indigo-500/30 hover:bg-[#1C1C20]
            hover:scale-[1.01] active:scale-[0.99];
   }
 
   .card {
-    @apply bg-[#121212] border border-white/10 rounded-2xl
-           transition-all duration-300 hover:border-white/20 hover:bg-[#161616];
+    @apply bg-[#111113] border border-white/10 rounded-2xl
+           transition-all duration-300 hover:border-indigo-500/30 hover:bg-[#151518];
   }
 }

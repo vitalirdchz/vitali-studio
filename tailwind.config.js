@@ -5,14 +5,32 @@ export default {
     extend: {
       colors: {
         dark: {
-          950: '#050505',
-          900: '#0A0A0A', // Main Deep Anthracite Background
-          850: '#111111',
-          800: '#161616', // Bento Surface 1
-          750: '#1c1c1c',
-          700: '#222222', // Bento Surface 2
-          600: '#2c2c2c',
-          500: '#404040',
+          950: '#060608',
+          900: '#09090B', // Main Deep Pure Anthracite Background
+          850: '#0E0E11',
+          800: '#111113', // Bento Surface 1
+          750: '#161619',
+          700: '#1A1A1E', // Bento Surface 2
+          600: '#27272A',
+          500: '#3F3F46',
+        },
+        studio: {
+          bg: '#09090B',
+          card: '#111113',
+          cardHover: '#161619',
+          border: 'rgba(255, 255, 255, 0.08)',
+          borderHover: 'rgba(99, 102, 241, 0.25)',
+          light: '#F5F5F7',
+          muted: '#A1A1AA',
+          subtle: '#71717A',
+          indigo: '#6366F1',
+          indigoLight: '#818CF8',
+        },
+        indigo: {
+          DEFAULT: '#6366F1',
+          soft: '#818CF8',
+          subtle: 'rgba(99, 102, 241, 0.12)',
+          glow: 'rgba(99, 102, 241, 0.09)',
         },
         tech: {
           bg: '#0A0A0A',

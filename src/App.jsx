@@ -5,6 +5,7 @@ import Footer from './components/layout/Footer';
 import ScrollToTop from './components/ui/ScrollToTop';
 
 const Home = lazy(() => import('./pages/Home'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
 const ClippingServicePage = lazy(() => import('./pages/ClippingServicePage'));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
@@ -47,6 +48,14 @@ export default function App() {
           element={
             <Layout>
               <Home />
+            </Layout>
+          }
+        />
+        <Route
+          path="/a-propos"
+          element={
+            <Layout>
+              <AboutPage />
             </Layout>
           }
         />
