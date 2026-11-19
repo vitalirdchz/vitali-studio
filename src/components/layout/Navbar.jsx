@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineBars3, HiOutlineXMark, HiArrowTopRightOnSquare } from 'react-icons/hi2';
 import { getSettings } from '../../utils/api';
@@ -14,9 +14,15 @@ const NAV_ITEMS = [
 ];
 
 export default function Navbar() {
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [fiverrUrl, setFiverrUrl] = useState('https://www.fiverr.com');
+
+  // Close mobile menu automatically on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     getSettings()
@@ -34,13 +40,21 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Prevent scroll when mobile menu is open
+  // Prevent scroll when mobile menu is open and cleanly restore when closed
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
     return () => {
       document.body.style.overflow = '';
     };
   }, [mobileOpen]);
+
+  const handleCloseMobile = () => {
+    setMobileOpen(false);
+  };
 
   return (
     <>
@@ -54,7 +68,11 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
+            <Link
+              to="/"
+              onClick={handleCloseMobile}
+              className="flex items-center gap-3 group"
+            >
               <span className="w-8 h-8 rounded-lg bg-[#161616] border border-white/15 flex items-center justify-center font-mono font-bold text-sm text-white group-hover:border-white/40 transition">
                 V
               </span>
@@ -104,7 +122,7 @@ export default function Navbar() {
 
             {/* Mobile Hamburger Button */}
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={() => setMobileOpen((prev) => !prev)}
               className="md:hidden p-2 rounded-xl bg-[#161616] border border-white/10 text-gray-300 hover:text-white focus:outline-none"
               aria-label="Menu"
             >
@@ -130,7 +148,7 @@ export default function Navbar() {
                   key={item.to}
                   to={item.to}
                   end={item.to === '/'}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={handleCloseMobile}
                   className={({ isActive }) =>
                     `px-5 py-3.5 rounded-xl text-base font-medium transition ${
                       isActive
@@ -149,6 +167,7 @@ export default function Navbar() {
                 href={fiverrUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={handleCloseMobile}
                 className="w-full py-3.5 rounded-xl bg-white text-black font-semibold text-center text-sm flex items-center justify-center gap-2"
               >
                 <span>Commander sur Fiverr</span>
