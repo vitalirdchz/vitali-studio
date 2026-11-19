@@ -5,302 +5,500 @@ import {
   HiArrowRight,
   HiVideoCamera,
   HiCommandLine,
-  HiCircleStack,
-  HiSparkles,
   HiArrowTopRightOnSquare,
   HiShieldCheck,
-  HiCpuChip,
+  HiFilm,
 } from 'react-icons/hi2';
-import { getSettings, getPortfolio } from '../utils/api';
+import { getSettings, getRealisations } from '../utils/api';
+
+/**
+ * Normalizes video links (YouTube Shorts, standard YouTube, TikTok, direct video) into embeddable iframe URLs.
+ */
+function parseEmbedUrl(url) {
+  if (!url) return null;
+  const trimmed = url.trim();
+
+  // If user pasted full iframe tag: extract src
+  const iframeMatch = trimmed.match(/src=["'](.*?)["']/);
+  if (iframeMatch && iframeMatch[1]) {
+    return { type: 'iframe', src: iframeMatch[1] };
+  }
+
+  // YouTube Shorts: https://www.youtube.com/shorts/VIDEO_ID
+  const shortsMatch = trimmed.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
+  if (shortsMatch && shortsMatch[1]) {
+    return {
+      type: 'iframe',
+      src: `https://www.youtube-nocookie.com/embed/${shortsMatch[1]}?autoplay=0&rel=0`,
+    };
+  }
+
+  // YouTube standard: youtu.be/VIDEO_ID or watch?v=VIDEO_ID
+  const ytMatch = trimmed.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]+)/
+  );
+  if (ytMatch && ytMatch[1]) {
+    return {
+      type: 'iframe',
+      src: `https://www.youtube-nocookie.com/embed/${ytMatch[1]}?autoplay=0&rel=0`,
+    };
+  }
+
+  // Direct video file (mp4, webm, mov)
+  if (/\.(mp4|webm|mov)(\?.*)?$/i.test(trimmed)) {
+    return { type: 'video', src: trimmed };
+  }
+
+  // Fallback to iframe
+  return { type: 'iframe', src: trimmed };
+}
 
 export default function Home() {
   const [fiverrUrl, setFiverrUrl] = useState('https://www.fiverr.com');
-  const [featuredProjects, setFeaturedProjects] = useState([]);
+  const [recentRealisations, setRecentRealisations] = useState([]);
+  const [loadingRealisations, setLoadingRealisations] = useState(true);
 
   useEffect(() => {
-    getSettings().then((d) => {
-      if (d?.fiverrUrl) setFiverrUrl(d.fiverrUrl);
-    }).catch(() => {});
+    getSettings()
+      .then((d) => {
+        if (d?.fiverrUrl) setFiverrUrl(d.fiverrUrl);
+      })
+      .catch(() => {});
 
-    getPortfolio().then((items) => {
-      if (Array.isArray(items) && items.length > 0) {
-        setFeaturedProjects(items.slice(0, 3));
-      }
-    }).catch(() => {});
+    getRealisations()
+      .then((items) => {
+        if (Array.isArray(items) && items.length > 0) {
+          // Display the 3 most recent realisations
+          setRecentRealisations(items.slice(0, 3));
+        }
+      })
+      .catch((err) => {
+        console.error('Error loading realisations:', err);
+      })
+      .finally(() => {
+        setLoadingRealisations(false);
+      });
   }, []);
 
   return (
-    <div className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* ── HERO BANNER ─────────────────────────────────────────── */}
-      <section className="py-12 sm:py-20 border-b border-white/10">
-        <div className="max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#161616] border border-white/10 text-xs font-mono text-gray-300 mb-6">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span>STUDIO DIGITAL MULTIDISCIPLINAIRE // VITALI</span>
+    <div className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-28">
+      {/* ── 1. HERO SECTION ─────────────────────────────────────── */}
+      <section className="pt-8 sm:pt-16 pb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-4xl"
+        >
+          {/* Badge discret */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#121212] border border-white/10 text-xs font-mono text-gray-300 mb-8">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Studio Digital & Vidéo</span>
           </div>
 
+          {/* Titre principal */}
           <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6">
-            L'alliance chirurgicale du <span className="text-gray-400">Code</span>, de la <span className="text-gray-400">Vidéo</span> et de la <span className="text-white">Data</span>.
+            L’art du format court. <br className="hidden sm:inline" />
+            La rigueur des architectures sur-mesure.
           </h1>
 
+          {/* Sous-titre */}
           <p className="text-gray-400 text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-3xl mb-10">
-            Vitali Studio conçoit des solutions numériques à haute rétention : montage vidéo dynamique assisté par IA, scrapers de données robustes et scripts d'automatisation sur-mesure pour créateurs, fondateurs et équipes ambitieuses.
+            Vitali Studio transforme vos contenus longs — podcasts, lives et conférences — en formats courts (9:16) ultra-percutants pour TikTok, Reels et Shorts, tout en développant des outils et automatisations numériques sur-mesure.
           </p>
 
+          {/* Deux CTA propres */}
           <div className="flex flex-wrap items-center gap-4">
             <Link
-              to="/services"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white text-black font-semibold text-sm hover:bg-gray-200 transition active:scale-95 shadow-md"
+              to="/services/clipping"
+              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-white text-black font-semibold text-sm hover:bg-gray-200 transition shadow-lg active:scale-[0.98]"
             >
-              <span>Explorer les Services</span>
+              <span>Voir les packs Clipping</span>
               <HiArrowRight className="w-4 h-4" />
             </Link>
+
             <Link
               to="/portfolio"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#161616] hover:bg-[#202020] border border-white/10 text-sm font-medium text-white transition active:scale-95"
+              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#141414] hover:bg-[#1a1a1a] border border-white/10 text-sm font-medium text-white transition active:scale-[0.98]"
             >
-              <span>Voir les Réalisations</span>
+              <span>Explorer les réalisations</span>
             </Link>
+
             <a
               href={fiverrUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-gray-400 hover:text-white text-sm font-medium transition"
+              className="inline-flex items-center gap-1.5 px-4 py-3.5 text-xs font-mono text-gray-500 hover:text-white transition"
             >
-              <span>Profil Fiverr</span>
-              <HiArrowTopRightOnSquare className="w-4 h-4" />
+              <span>Commander sur Fiverr</span>
+              <HiArrowTopRightOnSquare className="w-3.5 h-3.5" />
             </a>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* ── BENTO GRID : LES 3 PILIERS DU STUDIO ─────────────────── */}
-      <section className="py-20">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
+      {/* ── 2. PRÉSENTATION DU STUDIO (GRILLE BENTO 3 COLONNES) ─── */}
+      <section>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10">
           <div>
             <span className="text-xs font-mono uppercase tracking-widest text-gray-500">
-              01 // EXPERTISES
+              01 // APPROCHE DU STUDIO
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mt-1">
-              Architecture Hybride
+            <h2 className="font-display text-2xl sm:text-4xl font-bold text-white mt-1">
+              Précision Visuelle & Maîtrise Technique
             </h2>
           </div>
-          <p className="text-gray-400 text-sm max-w-md mt-2 sm:mt-0">
-            Une synergie entre précision technique du code et sensibilité visuelle moderne.
+          <p className="text-gray-400 text-xs sm:text-sm max-w-md mt-2 sm:mt-0 font-mono">
+            Trois piliers fondamentaux au service de la rétention et de la clarté.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Card 1: Clipping IA (Principal) */}
-          <div className="md:col-span-7 bento-card p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-accent-rose/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Carte 1 : Clipping & Rétention */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="bento-card p-8 flex flex-col justify-between bg-[#101010] border-white/10 hover:border-white/20 transition-all duration-300"
+          >
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#181818] border border-white/10 flex items-center justify-center mb-6 text-white">
-                <HiVideoCamera className="w-6 h-6 text-accent-rose" />
+              <div className="w-12 h-12 rounded-xl bg-[#161616] border border-white/10 flex items-center justify-center mb-6 text-white">
+                <HiVideoCamera className="w-6 h-6 text-white" />
               </div>
-              <div className="inline-block px-2.5 py-0.5 rounded-md bg-[#202020] border border-white/10 text-[11px] font-mono text-gray-300 uppercase mb-3">
-                Prestation Active • Livrée sous 24-48h
-              </div>
-              <h3 className="font-display text-2xl sm:text-3xl font-bold text-white mb-3">
-                Clipping Vidéo IA & Rétention Algorithmique
-              </h3>
-              <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-6">
-                Transformation de longs flux (streams, podcasts, interviews, replays) en clips verticaux 9:16 optimisés pour TikTok, Reels et Shorts. Détection IA des accroches, découpage rythmé et titrage cinétique.
-              </p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-gray-300 mb-8 font-mono">
-                <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-rose" />
-                  <span>Règle stricte du 1080p source</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan" />
-                  <span>Sous-titrage animé sur-mesure</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-rose" />
-                  <span>Sound design & B-rolls</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan" />
-                  <span>Format calibré pour l'algorithme</span>
-                </li>
-              </ul>
-            </div>
-            <Link
-              to="/services"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-white group-hover:text-accent-cyan transition"
-            >
-              <span>Découvrir les offres Starter / Pro / Premium</span>
-              <HiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
 
-          {/* Card 2: Web Scraping */}
-          <div className="md:col-span-5 bento-card p-8 sm:p-10 flex flex-col justify-between group">
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-[#181818] border border-white/10 flex items-center justify-center mb-6 text-white">
-                <HiCircleStack className="w-6 h-6 text-accent-cyan" />
-              </div>
-              <div className="inline-block px-2.5 py-0.5 rounded-md bg-[#202020] border border-white/10 text-[11px] font-mono text-gray-400 uppercase mb-3">
-                Pôle Data & Web
-              </div>
+              <span className="text-[11px] font-mono uppercase tracking-wider text-gray-400 block mb-2">
+                Format Vertical 9:16
+              </span>
+
               <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-3">
-                Web Scraping & Extraction Structurée
+                Clipping & Rétention
               </h3>
+
               <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                Extraction automatisée de données volumineuses sur des cibles complexes (e-commerce, réseaux, annuaires). Contournement anti-bot, parsing chirurgical et exports exploitables (JSON, CSV, Postgres).
+                Conversion chirurgicale de vos podcasts, lives, conférences et vidéos longues en formats courts percutants calibrés pour l’algorithme de TikTok, Reels et YouTube Shorts.
               </p>
             </div>
-            <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-gray-500">
-              <span>Python • Playwright • Cheerio</span>
-              <span className="text-emerald-400">R&D Active</span>
-            </div>
-          </div>
 
-          {/* Card 3: Automatisations & Micro-Outils */}
-          <div className="md:col-span-6 bento-card p-8 flex flex-col justify-between group">
+            <div className="pt-4 border-t border-white/5 space-y-1.5 text-xs font-mono text-gray-400">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                <span>Détection des moments forts & punchlines</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                <span>Rythme soutenu sans temps mort</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Carte 2 : Maîtrise Technique */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="bento-card p-8 flex flex-col justify-between bg-[#101010] border-white/10 hover:border-white/20 transition-all duration-300"
+          >
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#181818] border border-white/10 flex items-center justify-center mb-6 text-white">
+              <div className="w-12 h-12 rounded-xl bg-[#161616] border border-white/10 flex items-center justify-center mb-6 text-white">
+                <HiShieldCheck className="w-6 h-6 text-white" />
+              </div>
+
+              <span className="text-[11px] font-mono uppercase tracking-wider text-gray-400 block mb-2">
+                Normes & Standards
+              </span>
+
+              <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-3">
+                Maîtrise Technique
+              </h3>
+
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                Un pipeline optimisé de bout en bout : recadrage dynamique centré sur le sujet, sous-titres dynamiques synchronisés haute visibilité et export HD 1080x1920 fluide.
+              </p>
+            </div>
+
+            <div className="pt-4 border-t border-white/5 space-y-1.5 text-xs font-mono text-gray-400">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span>Règle conseillée du 1080p source</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span>Mixage et normalisation audio claire</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Carte 3 : Vision Multidisciplinaire */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="bento-card p-8 flex flex-col justify-between bg-[#101010] border-white/10 hover:border-white/20 transition-all duration-300"
+          >
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-[#161616] border border-white/10 flex items-center justify-center mb-6 text-white">
                 <HiCommandLine className="w-6 h-6 text-white" />
               </div>
-              <div className="inline-block px-2.5 py-0.5 rounded-md bg-[#202020] border border-white/10 text-[11px] font-mono text-gray-400 uppercase mb-3">
-                Pôle Automatisation
-              </div>
-              <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-2">
-                Outils & Scripts sur-mesure
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                Développement de scripts d'automatisation des tâches répétitives, connecteurs API, bots Discord/Telegram et pipelines de publication automatisés.
-              </p>
-            </div>
-            <span className="text-xs font-mono text-gray-500">REST APIs • Serverless • Micro-services</span>
-          </div>
 
-          {/* Card 4: Métriques & Engagement Qualité */}
-          <div className="md:col-span-6 bento-card p-8 flex flex-col justify-between bg-gradient-to-br from-[#121212] via-[#121212] to-[#181818]">
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-[#181818] border border-white/10 flex items-center justify-center mb-6 text-white">
-                <HiShieldCheck className="w-6 h-6 text-emerald-400" />
-              </div>
-              <div className="inline-block px-2.5 py-0.5 rounded-md bg-[#202020] border border-white/10 text-[11px] font-mono text-emerald-400 uppercase mb-3">
-                Garantie Technique
-              </div>
-              <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-2">
-                Le Standard « Zéro Template »
+              <span className="text-[11px] font-mono uppercase tracking-wider text-gray-400 block mb-2">
+                Code & Automatisation
+              </span>
+
+              <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-3">
+                Vision Multidisciplinaire
               </h3>
+
               <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                Chaque livraison respecte un cahier des charges rigoureux : calibration couleur, normalisation audio (LUFS), timing au frame près et validation humaine systématique.
+                Un studio en constante évolution : la vidéo aujourd’hui, l’ingénierie logicielle et les automatisations de données demain. Une double compétence pour répondre à des besoins sur-mesure.
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-2 pt-4 border-t border-white/10 text-center font-mono">
-              <div>
-                <div className="text-xl font-bold text-white">+150</div>
-                <div className="text-[10px] text-gray-500 uppercase">Clips Livrés</div>
+
+            <div className="pt-4 border-t border-white/5 space-y-1.5 text-xs font-mono text-gray-400">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-500" />
+                <span>Web Scraping & pipelines de données</span>
               </div>
-              <div>
-                <div className="text-xl font-bold text-white">4.9★</div>
-                <div className="text-[10px] text-gray-500 uppercase">Satisfaction</div>
-              </div>
-              <div>
-                <div className="text-xl font-bold text-white">&lt;48h</div>
-                <div className="text-[10px] text-gray-500 uppercase">Turnaround</div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-500" />
+                <span>Micro-outils et scripts sur-mesure</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* ── APERÇU PORTFOLIO RECENT ──────────────────────────────── */}
-      <section className="py-16 border-t border-white/10">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10">
+      {/* ── 3. FOCUS SERVICE ACTIF (TEASER CLIPPING) ────────────── */}
+      <section>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="rounded-2xl bg-[#0D0D0D] border border-white/15 p-8 sm:p-12 relative overflow-hidden"
+        >
+          {/* Subtle background texture */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.015] rounded-full blur-3xl pointer-events-none" />
+
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
+            <div className="space-y-4 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Prestation Ouverte & Prête à la commande</span>
+              </div>
+
+              <h2 className="font-display text-2xl sm:text-4xl font-bold text-white">
+                Clipping Vidéo (TikTok / Reels / Shorts)
+              </h2>
+
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                Profitez d’une formule transparente et modulable selon vos besoins réels : paiement unique calculé au nombre d’extraits (aucun abonnement mensuel obligatoire), options d’habillage à la carte, et respect rigoureux de la qualité source.
+              </p>
+
+              {/* Highlights pills */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-xs font-mono text-gray-300">
+                  <div className="font-semibold text-white mb-0.5">3 Packs Dédiés</div>
+                  <div className="text-gray-400 text-[11px]">Découverte, Standard, Volume</div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-xs font-mono text-gray-300">
+                  <div className="font-semibold text-white mb-0.5">Paiement Unique</div>
+                  <div className="text-gray-400 text-[11px]">Aucun prélèvement mensuel</div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-xs font-mono text-gray-300">
+                  <div className="font-semibold text-white mb-0.5">Options à la carte</div>
+                  <div className="text-gray-400 text-[11px]">Express, Multicam, Sous-titres</div>
+                </div>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-stretch gap-3 flex-shrink-0">
+              <Link
+                to="/services/clipping"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white text-black font-semibold text-sm hover:bg-gray-200 transition shadow-lg text-center"
+              >
+                <span>Accéder aux 3 packs & options</span>
+                <HiArrowRight className="w-4 h-4" />
+              </Link>
+
+              <Link
+                to="/services"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#161616] hover:bg-[#1e1e1e] border border-white/10 text-xs font-mono text-gray-300 hover:text-white transition text-center"
+              >
+                <span>Voir les services à venir ou proposer un besoin →</span>
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── 4. APERÇU DES RÉALISATIONS (CONNECTÉ À MONGODB) ─────── */}
+      <section>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10">
           <div>
             <span className="text-xs font-mono uppercase tracking-widest text-gray-500">
-              02 // SHOWCASE
+              02 // DÉMONSTRATIONS EN VERTICAL
             </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mt-1">
-              Sélection de Projets Récentes
+            <h2 className="font-display text-2xl sm:text-4xl font-bold text-white mt-1">
+              Aperçu des Réalisations
             </h2>
           </div>
           <Link
             to="/portfolio"
-            className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition mt-3 sm:mt-0 font-medium"
+            className="inline-flex items-center gap-2 text-xs font-mono text-gray-400 hover:text-white transition mt-3 sm:mt-0 uppercase tracking-wider"
           >
-            <span>Voir toute la galerie</span>
-            <HiArrowRight className="w-4 h-4" />
+            <span>Explorer toute la galerie</span>
+            <HiArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              title: 'Shorts Gaming & High-Energy Clips',
-              client: 'Alexandre R. (Twitch Partner)',
-              tag: 'Vidéo',
-              desc: 'Découpage ultra-dynamique, sous-titres animés et sound effects rythmés.',
-              thumb: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80',
-            },
-            {
-              title: 'Podcast Business & Hooks Viraux 9:16',
-              client: 'Mindset Academy',
-              tag: 'Vidéo',
-              desc: 'Recadrage visage par IA, punchlines isolées et chapitrage intelligent.',
-              thumb: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=80',
-            },
-            {
-              title: 'Pipeline de Scraping E-Commerce Multi-Sources',
-              client: 'DataFlow Solutions',
-              tag: 'Data',
-              desc: 'Extraction quotidienne de 50k fiches produits avec résolution des captchas.',
-              thumb: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-            },
-          ].map((item, idx) => (
-            <div key={idx} className="bento-card overflow-hidden group">
-              <div className="aspect-video w-full bg-[#181818] overflow-hidden relative">
-                <img
-                  src={item.thumb}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md px-2.5 py-0.5 rounded text-[11px] font-mono text-white border border-white/10">
-                  {item.tag}
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="font-display font-bold text-white text-base mb-1 group-hover:text-accent-cyan transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-gray-500 font-mono mb-3">{item.client}</p>
-                <p className="text-xs text-gray-400 leading-relaxed">{item.desc}</p>
-              </div>
+        {/* Grille ou état vide */}
+        {loadingRealisations ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="bento-card aspect-[9/16] animate-pulse bg-[#121212] rounded-2xl"
+              />
+            ))}
+          </div>
+        ) : recentRealisations.length === 0 ? (
+          /* Encart minimaliste et pro quand la base est vide */
+          <div className="py-16 px-6 rounded-2xl border border-white/10 bg-[#0F0F0F] text-center max-w-xl mx-auto">
+            <div className="w-12 h-12 rounded-xl bg-[#161616] border border-white/10 text-gray-400 flex items-center justify-center mx-auto mb-4">
+              <HiFilm className="w-6 h-6 text-gray-400" />
             </div>
-          ))}
-        </div>
+            <h3 className="font-display font-semibold text-white text-base mb-2">
+              Démonstrations en cours de préparation
+            </h3>
+            <p className="text-xs text-gray-400 max-w-md mx-auto leading-relaxed mb-6 font-sans">
+              Les extraits vidéos au format vertical (9:16) sont actuellement en cours d’encodage et de publication au sein du studio.
+            </p>
+            <Link
+              to="/portfolio"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-mono transition"
+            >
+              <span>Accéder à la page Portfolio</span>
+              <HiArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {recentRealisations.map((item, idx) => {
+                const embed = parseEmbedUrl(item.videoUrl);
+
+                return (
+                  <motion.div
+                    key={item._id || idx}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: idx * 0.1 }}
+                    className="bento-card overflow-hidden flex flex-col justify-between bg-[#0F0F0F] border-white/10 hover:border-white/20 transition-all duration-300 group rounded-2xl"
+                  >
+                    {/* Conteneur vidéo vertical 9:16 */}
+                    <div className="relative aspect-[9/16] w-full bg-black overflow-hidden border-b border-white/10">
+                      {embed?.type === 'iframe' ? (
+                        <iframe
+                          src={embed.src}
+                          title={item.title}
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="w-full h-full border-0 object-cover"
+                        />
+                      ) : embed?.type === 'video' ? (
+                        <video
+                          src={embed.src}
+                          controls
+                          playsInline
+                          preload="metadata"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center">
+                          <HiFilm className="w-8 h-8 text-gray-600 mb-2" />
+                          <span className="text-xs font-mono text-gray-500">
+                            Aperçu non disponible
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Catégorie badge */}
+                      {item.category && (
+                        <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] font-mono text-gray-300 uppercase tracking-wider border border-white/10">
+                          {item.category}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Description & Titre */}
+                    <div className="p-4 bg-[#111111]">
+                      <h4 className="font-display font-bold text-white text-sm mb-1 line-clamp-1">
+                        {item.title}
+                      </h4>
+                      {item.description && (
+                        <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            <div className="text-center pt-2">
+              <Link
+                to="/portfolio"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#141414] hover:bg-[#1a1a1a] border border-white/10 text-xs font-mono text-white transition"
+              >
+                <span>Voir toutes les réalisations sur le Portfolio</span>
+                <HiArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        )}
       </section>
 
-      {/* ── CALL TO ACTION ───────────────────────────────────────── */}
-      <section className="py-20 border-t border-white/10 text-center">
-        <div className="max-w-2xl mx-auto">
+      {/* ── 5. SECTION FINALE (CTA SOBRE) ────────────────────────── */}
+      <section className="pt-8">
+        <div className="rounded-2xl bg-[#0D0D0D] border border-white/10 p-10 sm:p-16 text-center max-w-3xl mx-auto">
+          <span className="text-xs font-mono uppercase tracking-widest text-gray-500 block mb-3">
+            LANCER UN PROJET
+          </span>
+
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
-            Prêt à faire passer vos contenus au niveau supérieur ?
+            Transformons vos contenus en formats viraux.
           </h2>
-          <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-8">
-            Commandez vos clips directement via Fiverr en toute sécurité ou contactez-moi pour un besoin spécifique en code ou extraction de données.
+
+          <p className="text-gray-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-8 font-sans">
+            Passez commande directement sur Fiverr en toute sécurité ou contactez le studio pour discuter d’un projet spécifique ou d’un accompagnement technique sur-mesure.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+
+          <div className="flex flex-wrap justify-center items-center gap-4">
             <a
               href={fiverrUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white text-black font-semibold text-sm hover:bg-gray-200 transition shadow-lg"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white text-black font-semibold text-sm hover:bg-gray-200 transition shadow-lg active:scale-[0.98]"
             >
               <span>Commander sur Fiverr</span>
               <HiArrowTopRightOnSquare className="w-4 h-4" />
             </a>
+
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#161616] hover:bg-[#202020] border border-white/10 text-white font-medium text-sm transition"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#161616] hover:bg-[#202020] border border-white/10 text-white font-medium text-sm transition active:scale-[0.98]"
             >
-              <span>Me contacter</span>
+              <span>Discuter d’un projet</span>
+              <HiArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

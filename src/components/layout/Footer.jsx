@@ -13,7 +13,7 @@ const navigationLinks = [
 ];
 
 const expertises = [
-  { label: 'Clipping Vidéo IA (9:16)', to: '/services' },
+  { label: 'Clipping Vidéo (TikTok / Reels)', to: '/services/clipping' },
   { label: 'Web Scraping & Data', to: '/services' },
   { label: 'Automatisations Python', to: '/services' },
   { label: 'Post-production YouTube', to: '/services' },
