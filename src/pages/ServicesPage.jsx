@@ -198,9 +198,12 @@ export default function ServicesPage() {
                 </li>
               </ul>
             </div>
-            <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-gray-500">
-              <span>Statut : En laboratoire</span>
-              <span>Disponibilité privée sur devis</span>
+            <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-gray-400">
+              <span>Statut : Sur consultation</span>
+              <Link to="/contact" className="text-indigo-400 hover:text-indigo-300 transition flex items-center gap-1">
+                <span>Étudier un besoin</span>
+                <HiArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
 
@@ -232,9 +235,12 @@ export default function ServicesPage() {
                 </li>
               </ul>
             </div>
-            <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-gray-500">
-              <span>Statut : En phase de test</span>
-              <span>Disponibilité privée sur devis</span>
+            <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-gray-400">
+              <span>Statut : Sur consultation</span>
+              <Link to="/contact" className="text-indigo-400 hover:text-indigo-300 transition flex items-center gap-1">
+                <span>Étudier un besoin</span>
+                <HiArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
         </div>

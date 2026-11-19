@@ -26,6 +26,32 @@ const Admin = () => {
     testimonials: 0,
   });
 
+  // Discrétion SEO : Empêcher l'indexation des moteurs de recherche sur le panel
+  useEffect(() => {
+    let metaRobots = document.querySelector('meta[name="robots"]');
+    let wasCreated = false;
+
+    if (!metaRobots) {
+      metaRobots = document.createElement('meta');
+      metaRobots.setAttribute('name', 'robots');
+      document.head.appendChild(metaRobots);
+      wasCreated = true;
+    }
+
+    const previousContent = metaRobots.getAttribute('content');
+    metaRobots.setAttribute('content', 'noindex, nofollow');
+
+    return () => {
+      if (wasCreated) {
+        metaRobots.remove();
+      } else if (previousContent) {
+        metaRobots.setAttribute('content', previousContent);
+      } else {
+        metaRobots.removeAttribute('content');
+      }
+    };
+  }, []);
+
   const refreshUnreadCounts = useCallback(async () => {
     try {
       const data = await getUnreadCounts();

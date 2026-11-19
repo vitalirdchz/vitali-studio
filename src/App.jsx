@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ScrollToTop from './components/ui/ScrollToTop';
@@ -115,7 +115,9 @@ export default function App() {
             </Layout>
           }
         />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/studio-panel-v" element={<Admin />} />
+        {/* Redirection discrète de l'ancienne URL admin vers l'accueil */}
+        <Route path="/admin" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
   );

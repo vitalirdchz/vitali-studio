@@ -11,6 +11,7 @@ import {
   HiOutlineFilm,
 } from 'react-icons/hi2';
 import { getProjects, getRealisations, getSettings } from '../utils/api';
+import VideoCard916 from '../components/ui/VideoCard916';
 
 const DEFAULT_PROJECTS = [
   {
@@ -300,59 +301,9 @@ export default function PortfolioPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start">
-            {filteredRealisations.map((item, idx) => {
-              const embed = parseEmbedUrl(item.videoUrl);
-              return (
-                <div
-                  key={item._id || idx}
-                  className="bento-card overflow-hidden flex flex-col justify-between group transition-all duration-300 hover:border-white/20"
-                >
-                  {/* Container vertical 9:16 */}
-                  <div className="relative aspect-[9/16] w-full bg-black overflow-hidden border-b border-white/10">
-                    {embed?.type === 'iframe' ? (
-                      <iframe
-                        src={embed.src}
-                        title={item.title}
-                        loading="lazy"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className="w-full h-full border-0 object-cover"
-                      />
-                    ) : embed?.type === 'video' ? (
-                      <video
-                        src={embed.src}
-                        controls
-                        playsInline
-                        preload="metadata"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center bg-[#161616]">
-                        <HiVideoCamera className="w-10 h-10 text-gray-600 mb-2" />
-                        <span className="text-xs text-gray-400 font-mono">Lecteur vidéo</span>
-                      </div>
-                    )}
-
-                    {/* Badge catégorie en superposition */}
-                    <div className="absolute top-3 left-3 bg-[#0A0A0A]/90 backdrop-blur-md px-2.5 py-0.5 rounded text-[10px] font-mono text-white border border-white/10 pointer-events-none">
-                      {item.category}
-                    </div>
-                  </div>
-
-                  {/* Titre & Description courte */}
-                  <div className="p-4 sm:p-5">
-                    <h3 className="font-display font-bold text-sm sm:text-base text-white mb-1.5 line-clamp-1 group-hover:text-accent-cyan transition-colors">
-                      {item.title}
-                    </h3>
-                    {item.description && (
-                      <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed font-sans">
-                        {item.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+            {filteredRealisations.map((item, idx) => (
+              <VideoCard916 key={item._id || idx} item={item} />
+            ))}
           </div>
         )}
       </section>

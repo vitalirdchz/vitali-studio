@@ -123,10 +123,6 @@ export default function Footer() {
             <Link to="/cgv" className="hover:text-gray-300 transition">
               CGV & Légal
             </Link>
-            <span>•</span>
-            <Link to="/admin" className="hover:text-gray-300 transition text-gray-600">
-              CMS Admin
-            </Link>
           </div>
         </div>
       </div>
