@@ -56,9 +56,11 @@ const AdminDashboard = ({ onNavigate }) => {
   ];
 
   const quickActions = [
+    { label: 'Packs & Options (Clipping)', section: 'packs_options' },
+    { label: 'Messages reçus', section: 'messages' },
+    { label: 'Propositions clients', section: 'proposals' },
+    { label: 'Réalisations (9:16)', section: 'realisations' },
     { label: 'Ajouter un service', section: 'services' },
-    { label: 'Ajouter au portfolio', section: 'portfolio' },
-    { label: 'Nouvelle FAQ', section: 'faq' },
     { label: 'Nouvel avis', section: 'testimonials' },
   ];
 

@@ -11,22 +11,21 @@ import {
   HiSpeakerWave,
   HiPhoto,
   HiShieldExclamation,
-  HiSparkles,
-  HiClock,
 } from 'react-icons/hi2';
-import { getClippingConfig, getSettings } from '../utils/api';
+import {
+  getClippingPacks,
+  getClippingOptions,
+  getSettings,
+} from '../utils/api';
 
 const DEFAULT_PACKS = [
   {
-    id: 'pack-decouverte',
-    name: 'Pack 1 — Découverte',
-    badge: '3 à 5 extraits',
-    clipsCount: '3 à 5 extraits (9:16)',
+    _id: 'seed-pack-1',
+    title: 'Pack Découverte',
+    clipCount: '3 à 5 extraits',
     price: 'Paiement unique',
-    tagline: 'Idéal pour vidéo courte / test',
-    delivery: '24h à 48h ouvrées',
     description:
-      'Idéal pour tester le format ou extraire l’essentiel d’une vidéo courte sans aucun engagement.',
+      'Idéal pour tester le format ou extraire l’essentiel d’une courte vidéo sans engagement.',
     features: [
       '3 à 5 clips verticaux au format 9:16',
       'Sélection chirurgicale des meilleurs moments & punchlines',
@@ -34,19 +33,17 @@ const DEFAULT_PACKS = [
       'Export haute définition (1080x1920) optimisé mobile',
       'Paiement unique au clip (aucun abonnement requis)',
     ],
-    highlight: false,
+    isFeatured: false,
     fiverrUrl: '',
+    order: 1,
   },
   {
-    id: 'pack-standard',
-    name: 'Pack 2 — Standard',
-    badge: '8 à 10 extraits',
-    clipsCount: '8 à 10 extraits (9:16)',
+    _id: 'seed-pack-2',
+    title: 'Pack Standard',
+    clipCount: '8 à 10 extraits',
     price: 'Paiement unique',
-    tagline: 'Idéal pour podcast ou vidéo longue',
-    delivery: '48h ouvrées',
     description:
-      'Couverture complète des moments forts d’un épisode ou d’un long format, prêt à publier.',
+      'Idéal pour podcast ou vidéo longue, couverture complète des moments forts, prêt à publier.',
     features: [
       '8 à 10 clips verticaux au format 9:16',
       'Couverture exhaustive et rythmée des temps forts',
@@ -55,19 +52,17 @@ const DEFAULT_PACKS = [
       'Fichiers calibrés pour TikTok, Reels et YouTube Shorts',
       'Paiement unique au nombre d’extraits (aucun abonnement)',
     ],
-    highlight: true,
+    isFeatured: true,
     fiverrUrl: '',
+    order: 2,
   },
   {
-    id: 'pack-volume',
-    name: 'Pack 3 — Volume',
-    badge: '15 extraits',
-    clipsCount: '15 extraits (9:16)',
+    _id: 'seed-pack-3',
+    title: 'Pack Volume',
+    clipCount: '15 extraits',
     price: 'Paiement unique',
-    tagline: 'Idéal live, conférence & long podcast',
-    delivery: '72h ouvrées',
     description:
-      'Exploitation maximale d’un flux live, d’un séminaire ou d’un podcast de plusieurs heures.',
+      'Idéal pour live, conférence ou long podcast, exploitation maximale d’une vidéo source.',
     features: [
       '15 clips verticaux au format 9:16',
       'Exploitation maximale et chirurgicale de votre vidéo source',
@@ -76,85 +71,85 @@ const DEFAULT_PACKS = [
       'Pack complet de fichiers organisés et prêts à programmer',
       'Paiement unique au nombre d’extraits (aucun abonnement)',
     ],
-    highlight: false,
+    isFeatured: false,
     fiverrUrl: '',
+    order: 3,
   },
 ];
 
 const DEFAULT_OPTIONS = [
   {
-    id: 'opt-express',
+    _id: 'seed-opt-1',
     title: 'Livraison Express',
     description:
       'Traitement prioritaire en haut de pile et livraison de vos extraits sous 24h ouvrées.',
     tag: 'Urgent',
-    icon: HiBolt,
+    order: 1,
   },
   {
-    id: 'opt-subtitles',
+    _id: 'seed-opt-2',
     title: 'Sous-titres dynamiques sur-mesure',
     description:
       'Animation mot à mot calibrée selon votre charte graphique (typographie de marque, palette de couleurs, emojis ciblés).',
     tag: 'Branding',
-    icon: HiLanguage,
+    order: 2,
   },
   {
-    id: 'opt-multicam',
+    _id: 'seed-opt-3',
     title: 'Cadrage dynamique / Multicam & Split-Screen',
     description:
       'Suivi automatique de la prise de parole, découpe multi-angles ou split-screen vertical (facecam + rush démonstration).',
     tag: 'Technique',
-    icon: HiArrowsPointingOut,
+    order: 3,
   },
   {
-    id: 'opt-sound',
+    _id: 'seed-opt-4',
     title: 'Habillage & Musique de fond',
     description:
       'Zooms lents de rétention, bande-son libre de droits mixée avec soin, sound design discret et barre de rétention.',
     tag: 'Rétention',
-    icon: HiSpeakerWave,
+    order: 4,
   },
   {
-    id: 'opt-ready',
+    _id: 'seed-opt-5',
     title: 'Pack prêt à poster',
     description:
       'Miniature dédiée par extrait + titre percutant + suggestion de description et hashtags SEO prêts à copier/coller.',
     tag: 'Clé en main',
-    icon: HiPhoto,
+    order: 5,
   },
 ];
 
 export default function ClippingServicePage() {
-  const [config, setConfig] = useState(null);
+  const [packs, setPacks] = useState(DEFAULT_PACKS);
+  const [options, setOptions] = useState(DEFAULT_OPTIONS);
   const [globalFiverr, setGlobalFiverr] = useState('https://www.fiverr.com');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.allSettled([getClippingConfig(), getSettings()])
-      .then(([configRes, settingsRes]) => {
+    Promise.allSettled([
+      getClippingPacks(),
+      getClippingOptions(),
+      getSettings(),
+    ])
+      .then(([packsRes, optionsRes, settingsRes]) => {
         if (settingsRes.status === 'fulfilled' && settingsRes.value?.fiverrUrl) {
           setGlobalFiverr(settingsRes.value.fiverrUrl);
         }
 
-        if (configRes.status === 'fulfilled' && configRes.value) {
-          setConfig(configRes.value);
-          if (configRes.value.fiverrUrl) {
-            setGlobalFiverr(configRes.value.fiverrUrl);
-          }
+        if (packsRes.status === 'fulfilled' && Array.isArray(packsRes.value) && packsRes.value.length > 0) {
+          setPacks(packsRes.value);
+        }
+
+        if (optionsRes.status === 'fulfilled' && Array.isArray(optionsRes.value) && optionsRes.value.length > 0) {
+          setOptions(optionsRes.value);
         }
       })
       .finally(() => setLoading(false));
   }, []);
 
-  const packs =
-    config?.packs && config.packs.length > 0 ? config.packs : DEFAULT_PACKS;
-  const options =
-    config?.options && config.options.length > 0
-      ? config.options
-      : DEFAULT_OPTIONS;
-
   const getFiverrLink = (pack) => {
-    return pack.fiverrUrl?.trim() || config?.fiverrUrl?.trim() || globalFiverr;
+    return pack.fiverrUrl?.trim() || globalFiverr;
   };
 
   return (
@@ -211,12 +206,14 @@ export default function ClippingServicePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
             {packs.map((pack, idx) => {
-              const isHighlight = pack.highlight;
+              const isHighlight = pack.isFeatured ?? pack.highlight;
               const targetUrl = getFiverrLink(pack);
+              const packTitle = pack.title || pack.name;
+              const packCount = pack.clipCount || pack.clipsCount || pack.badge;
 
               return (
                 <motion.div
-                  key={pack.id || idx}
+                  key={pack._id || pack.id || idx}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: idx * 0.1 }}
@@ -238,37 +235,37 @@ export default function ClippingServicePage() {
                     <span className="text-xs font-mono text-gray-400 uppercase tracking-widest">
                       Formule {String(idx + 1).padStart(2, '0')}
                     </span>
-                    <span className="px-2.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[11px] font-mono text-white">
-                      {pack.badge || pack.clipsCount}
+                    <span className="px-2.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[11px] font-mono text-indigo-300 font-medium">
+                      {packCount}
                     </span>
                   </div>
 
                   <h3 className="font-display text-2xl font-bold text-white mb-2">
-                    {pack.name}
+                    {packTitle}
                   </h3>
 
                   <p className="text-xs text-gray-400 leading-relaxed mb-6 min-h-[36px]">
                     {pack.description}
                   </p>
 
-                  {/* Specs & Delivery */}
+                  {/* Specs & Facturation */}
                   <div className="space-y-2.5 py-4 border-y border-white/10 mb-6 text-xs font-mono text-gray-300">
                     <div className="flex items-center justify-between">
                       <span className="text-gray-400">Volume :</span>
                       <span className="font-semibold text-white">
-                        {pack.clipsCount || pack.badge}
+                        {packCount}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-400">Facturation :</span>
-                      <span className="text-gray-300">Paiement unique</span>
+                      <span className="text-gray-400">Tarification :</span>
+                      <span className="text-indigo-400 font-medium">
+                        {pack.price || 'Paiement unique'}
+                      </span>
                     </div>
-                    {pack.delivery && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-400">Délai estimé :</span>
-                        <span className="text-emerald-400">{pack.delivery}</span>
-                      </div>
-                    )}
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-400">Engagement :</span>
+                      <span className="text-gray-400">Zéro abonnement</span>
+                    </div>
                   </div>
 
                   {/* Features List */}
@@ -282,7 +279,7 @@ export default function ClippingServicePage() {
                           key={fIdx}
                           className="flex items-start gap-2.5 text-xs text-gray-300 leading-relaxed"
                         >
-                          <HiCheck className="w-4 h-4 text-white flex-shrink-0 mt-0.5" />
+                          <HiCheck className="w-4 h-4 text-indigo-400 flex-shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </li>
                       ))}
@@ -298,7 +295,7 @@ export default function ClippingServicePage() {
                   className={`w-full py-3.5 px-4 rounded-xl text-xs font-semibold text-center flex items-center justify-center gap-2 transition ${
                     isHighlight
                       ? 'bg-white text-black hover:bg-gray-200 shadow-md'
-                      : 'bg-[#181818] text-white hover:bg-[#222222] border border-white/10'
+                      : 'bg-[#18181C] text-white hover:bg-[#222228] border border-white/10 hover:border-indigo-500/30'
                   }`}
                 >
                   <span>Commander sur Fiverr</span>
@@ -337,19 +334,26 @@ export default function ClippingServicePage() {
 
             return (
               <div
-                key={opt.id || idx}
-                className="bento-card p-6 bg-[#0E0E0E] border-white/10 flex flex-col justify-between"
+                key={opt._id || opt.id || idx}
+                className="bento-card p-6 bg-[#111113] border-white/10 hover:border-indigo-500/30 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white">
+                    <div className="w-10 h-10 rounded-xl bg-[#161619] border border-white/10 flex items-center justify-center text-indigo-400">
                       <IconComponent className="w-5 h-5" />
                     </div>
-                    {opt.tag && (
-                      <span className="px-2.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[10px] font-mono text-gray-400 uppercase tracking-wider">
-                        {opt.tag}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {opt.price && (
+                        <span className="text-[11px] font-mono text-indigo-400 font-medium">
+                          {opt.price}
+                        </span>
+                      )}
+                      {opt.tag && (
+                        <span className="px-2.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[10px] font-mono text-gray-400 uppercase tracking-wider">
+                          {opt.tag}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   <h3 className="font-display text-base font-bold text-white mb-2">
@@ -361,8 +365,9 @@ export default function ClippingServicePage() {
                   </p>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-white/5 text-[11px] font-mono text-gray-500">
-                  Ajoutable en extra lors de la commande
+                <div className="pt-4 mt-4 border-t border-white/5 text-[11px] font-mono text-gray-500 flex items-center justify-between">
+                  <span>Option à la carte</span>
+                  <span className="text-gray-400">À sélectionner sur Fiverr</span>
                 </div>
               </div>
             );

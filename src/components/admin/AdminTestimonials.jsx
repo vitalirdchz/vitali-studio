@@ -23,6 +23,7 @@ const emptyForm = {
   rating: 5,
   avatarUrl: '',
   active: true,
+  isRead: true,
 };
 
 const StarRating = ({ rating, interactive = false, onChange }) => {
@@ -52,7 +53,7 @@ const StarRating = ({ rating, interactive = false, onChange }) => {
   );
 };
 
-const AdminTestimonials = () => {
+const AdminTestimonials = ({ onUpdated }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -127,6 +128,7 @@ const AdminTestimonials = () => {
       }
       setShowModal(false);
       fetchItems();
+      if (onUpdated) onUpdated();
     } catch (err) {
       console.error('Erreur sauvegarde avis:', err);
       showToast(err.message || 'Erreur lors de la sauvegarde', 'error');
@@ -142,6 +144,7 @@ const AdminTestimonials = () => {
       showToast('Avis supprimé');
       setDeleteId(null);
       fetchItems();
+      if (onUpdated) onUpdated();
     } catch (err) {
       showToast('Erreur lors de la suppression', 'error');
     }

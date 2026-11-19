@@ -10,7 +10,7 @@ import {
   HiShieldCheck,
 } from 'react-icons/hi2';
 import { RiShoppingBag3Line } from 'react-icons/ri';
-import { getFAQ, getSettings } from '../utils/api';
+import { getFAQ, getSettings, createContactMessage } from '../utils/api';
 
 const DEFAULT_FAQ = [
   {
@@ -84,6 +84,12 @@ export default function ContactPage() {
       ...formData,
     }).toString();
 
+    // Persist in MongoDB
+    createContactMessage(formData).catch((err) =>
+      console.warn('MongoDB save warning:', err)
+    );
+
+    // Also send via Netlify forms
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

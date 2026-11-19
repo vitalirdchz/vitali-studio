@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AdminLogin from '../admin/AdminLogin';
 import AdminLayout from '../admin/AdminLayout';
 import AdminDashboard from '../admin/AdminDashboard';
+import AdminPacksOptions from '../admin/AdminPacksOptions';
+import AdminMessages from '../admin/AdminMessages';
 import AdminProposals from '../admin/AdminProposals';
 import AdminClipping from '../admin/AdminClipping';
 import AdminProjects from '../admin/AdminProjects';
@@ -12,20 +14,41 @@ import AdminCreations from '../admin/AdminCreations';
 import AdminFAQ from '../admin/AdminFAQ';
 import AdminTestimonials from '../admin/AdminTestimonials';
 import AdminSettings from '../admin/AdminSettings';
+import { getUnreadCounts } from '../../utils/api';
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeSection, setActiveSection] = useState('dashboard');
+  const [unreadCounts, setUnreadCounts] = useState({
+    total: 0,
+    proposals: 0,
+    messages: 0,
+    testimonials: 0,
+  });
+
+  const refreshUnreadCounts = useCallback(async () => {
+    try {
+      const data = await getUnreadCounts();
+      if (data && typeof data === 'object') {
+        setUnreadCounts(data);
+      }
+    } catch (err) {
+      // Silently ignore or log if unauthorized
+      console.warn('Failed to load unread counts:', err?.message);
+    }
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('vitali_admin_token');
     if (token) {
       setIsAuthenticated(true);
+      refreshUnreadCounts();
     }
-  }, []);
+  }, [refreshUnreadCounts]);
 
   const handleLogin = () => {
     setIsAuthenticated(true);
+    refreshUnreadCounts();
   };
 
   const handleLogout = () => {
@@ -36,6 +59,7 @@ const Admin = () => {
 
   const handleNavigate = (section) => {
     setActiveSection(section);
+    refreshUnreadCounts();
   };
 
   if (!isAuthenticated) {
@@ -46,10 +70,13 @@ const Admin = () => {
     switch (activeSection) {
       case 'dashboard':
         return <AdminDashboard onNavigate={handleNavigate} />;
-      case 'proposals':
-        return <AdminProposals />;
+      case 'packs_options':
       case 'clipping':
-        return <AdminClipping />;
+        return <AdminPacksOptions />;
+      case 'messages':
+        return <AdminMessages onUpdated={refreshUnreadCounts} />;
+      case 'proposals':
+        return <AdminProposals onUpdated={refreshUnreadCounts} />;
       case 'projects':
         return <AdminProjects />;
       case 'realisations':
@@ -63,7 +90,7 @@ const Admin = () => {
       case 'faq':
         return <AdminFAQ />;
       case 'testimonials':
-        return <AdminTestimonials />;
+        return <AdminTestimonials onUpdated={refreshUnreadCounts} />;
       case 'settings':
         return <AdminSettings />;
       default:
@@ -76,6 +103,7 @@ const Admin = () => {
       activeSection={activeSection}
       onNavigate={handleNavigate}
       onLogout={handleLogout}
+      unreadCounts={unreadCounts}
     >
       {renderSection()}
     </AdminLayout>

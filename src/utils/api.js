@@ -260,3 +260,90 @@ export function updateClippingConfig(data) {
     body: JSON.stringify(data),
   });
 }
+
+// ── Clipping Packs CRUD (MongoDB) ─────────────────────────────────
+
+export function getClippingPacks() {
+  return fetchAPI('/clipping-packs');
+}
+
+export function createClippingPack(data) {
+  return fetchAPI('/clipping-packs', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export function updateClippingPack(id, data) {
+  return fetchAPI(`/clipping-packs?id=${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ ...data, id }),
+  });
+}
+
+export function deleteClippingPack(id) {
+  return fetchAPI(`/clipping-packs?id=${id}`, {
+    method: 'DELETE',
+    body: JSON.stringify({ id }),
+  });
+}
+
+// ── Clipping Options CRUD (MongoDB) ───────────────────────────────
+
+export function getClippingOptions() {
+  return fetchAPI('/clipping-options');
+}
+
+export function createClippingOption(data) {
+  return fetchAPI('/clipping-options', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export function updateClippingOption(id, data) {
+  return fetchAPI(`/clipping-options?id=${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ ...data, id }),
+  });
+}
+
+export function deleteClippingOption(id) {
+  return fetchAPI(`/clipping-options?id=${id}`, {
+    method: 'DELETE',
+    body: JSON.stringify({ id }),
+  });
+}
+
+// ── Contact Messages CRUD (MongoDB) ───────────────────────────────
+
+export function createContactMessage(data) {
+  return fetchAPI('/contact-messages', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export function getContactMessages() {
+  return fetchAPI('/contact-messages');
+}
+
+export function updateContactMessage(id, data) {
+  return fetchAPI(`/contact-messages?id=${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ ...data, id }),
+  });
+}
+
+export function deleteContactMessage(id) {
+  return fetchAPI(`/contact-messages?id=${id}`, {
+    method: 'DELETE',
+    body: JSON.stringify({ id }),
+  });
+}
+
+// ── Admin Notifications (Unread counts) ───────────────────────────
+
+export function getUnreadCounts() {
+  return fetchAPI('/unread-counts');
+}

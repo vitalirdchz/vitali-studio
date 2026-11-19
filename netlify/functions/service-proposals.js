@@ -35,6 +35,7 @@ export const handler = async (event) => {
         title: title.trim(),
         description: description.trim(),
         status: 'Nouveau',
+        isRead: false,
       });
 
       return {
@@ -70,6 +71,21 @@ export const handler = async (event) => {
         typeof event.body === 'string'
           ? JSON.parse(event.body || '{}')
           : event.body || {};
+
+      if (data.markAllRead) {
+        await ServiceProposal.updateMany(
+          {},
+          { $set: { status: 'Lu', isRead: true } }
+        );
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            message: 'Toutes les propositions ont été marquées comme lues',
+          }),
+        };
+      }
+
       const id = data.id || data._id || event.queryStringParameters?.id;
 
       if (!id) {
@@ -78,6 +94,12 @@ export const handler = async (event) => {
           headers,
           body: JSON.stringify({ error: 'ID de la proposition manquant' }),
         };
+      }
+
+      if (data.status === 'Lu') {
+        data.isRead = true;
+      } else if (data.status === 'Nouveau') {
+        data.isRead = false;
       }
 
       const proposal = await ServiceProposal.findByIdAndUpdate(id, data, {

@@ -82,6 +82,7 @@ const testimonialSchema = new mongoose.Schema(
     rating: { type: Number, min: 1, max: 5, default: 5 },
     avatarUrl: { type: String },
     active: { type: Boolean, default: true },
+    isRead: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
@@ -161,6 +162,7 @@ const serviceProposalSchema = new mongoose.Schema(
       enum: ['Nouveau', 'Lu', 'Traité'],
       default: 'Nouveau',
     },
+    isRead: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
@@ -168,6 +170,59 @@ const serviceProposalSchema = new mongoose.Schema(
 export const ServiceProposal =
   mongoose.models.ServiceProposal ||
   mongoose.model('ServiceProposal', serviceProposalSchema);
+
+// ── ContactMessage (Messages envoyés depuis /contact) ────────────────────────
+const contactMessageSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    service: { type: String, default: 'Clipping Vidéo' },
+    message: { type: String, required: true },
+    isRead: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
+
+export const ContactMessage =
+  mongoose.models.ContactMessage ||
+  mongoose.model('ContactMessage', contactMessageSchema);
+
+// ── ClippingPack (Gestion CRUD des Packs de Clipping) ────────────────────────
+const clippingPackSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true }, // ex: "Pack Découverte"
+    clipCount: { type: String, default: '3 à 5 extraits' }, // ex: "3 à 5 extraits"
+    description: { type: String, default: '' },
+    features: [{ type: String }], // liste des points inclus
+    price: { type: String, default: 'Paiement unique' }, // optionnel, ex: "À partir de 50€"
+    fiverrUrl: { type: String, default: '' },
+    isFeatured: { type: Boolean, default: false },
+    order: { type: Number, default: 0 },
+    active: { type: Boolean, default: true },
+  },
+  { timestamps: true }
+);
+
+export const ClippingPack =
+  mongoose.models.ClippingPack ||
+  mongoose.model('ClippingPack', clippingPackSchema);
+
+// ── ClippingOption (Gestion CRUD des Options à la carte) ─────────────────────
+const clippingOptionSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true }, // ex: "Livraison Express"
+    description: { type: String, default: '' },
+    price: { type: String, default: '' }, // optionnel
+    tag: { type: String, default: '' }, // ex: "Urgent", "Branding"
+    order: { type: Number, default: 0 },
+    active: { type: Boolean, default: true },
+  },
+  { timestamps: true }
+);
+
+export const ClippingOption =
+  mongoose.models.ClippingOption ||
+  mongoose.model('ClippingOption', clippingOptionSchema);
 
 // ── ClippingConfig (Configuration de la page /services/clipping) ──────────────
 const clippingConfigSchema = new mongoose.Schema(
