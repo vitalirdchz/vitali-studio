@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ScrollToTop from './components/ui/ScrollToTop';
+import GlobalAmbientBackground from './components/ui/GlobalAmbientBackground';
+import CookieBanner from './components/ui/CookieBanner';
 
 const Home = lazy(() => import('./pages/Home'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
@@ -17,20 +19,22 @@ const Admin = lazy(() => import('./pages/Admin'));
 
 function Layout({ children }) {
   return (
-    <>
+    <div className="relative min-h-screen bg-[#0B0D12] text-[#D6DCE6] flex flex-col justify-between selection:bg-[#8EAFFF]/25 selection:text-[#F5F6F8]">
+      <GlobalAmbientBackground />
       <Navbar />
-      <main className="min-h-screen">{children}</main>
+      <main className="relative z-10 flex-1">{children}</main>
       <Footer />
-    </>
+      <CookieBanner />
+    </div>
   );
 }
 
 function LoadingFallback() {
   return (
-    <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
+    <div className="min-h-screen bg-[#0B0D12] flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-8 h-8 rounded-full border-2 border-white border-t-transparent animate-spin" />
-        <span className="font-mono text-xs text-gray-500 tracking-widest uppercase">
+        <div className="w-8 h-8 rounded-full border-2 border-[#8EAFFF] border-t-transparent animate-spin" />
+        <span className="font-mono text-xs text-[#B6C0D0] tracking-widest uppercase">
           VITALI STUDIO // CHARGEMENT
         </span>
       </div>
@@ -116,8 +120,7 @@ export default function App() {
           }
         />
         <Route path="/studio-panel-v" element={<Admin />} />
-        {/* Redirection discrète de l'ancienne URL admin vers l'accueil */}
-        <Route path="/admin" element={<Navigate to="/" replace />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </Suspense>
   );

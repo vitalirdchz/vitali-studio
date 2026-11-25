@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   HiBeaker,
-  HiCommandLine,
-  HiCpuChip,
-  HiSparkles,
-  HiArrowTopRightOnSquare,
-  HiCodeBracket,
 } from 'react-icons/hi2';
 import { getLabo } from '../utils/api';
 
@@ -94,14 +89,14 @@ export default function LaboPage() {
     <div className="pt-28 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* ── HEADER ──────────────────────────────────────────────── */}
       <div className="max-w-3xl mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#181818] border border-white/10 text-xs font-mono text-gray-300 mb-4">
-          <HiBeaker className="w-4 h-4 text-accent-cyan" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1A1F2B] border border-[#8EAFFF]/40 text-xs font-mono text-[#8EAFFF] mb-4">
+          <HiBeaker className="w-4 h-4 text-[#8EAFFF]" />
           <span>RECHERCHE & DÉVELOPPEMENT INDÉPENDANTE</span>
         </div>
-        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mt-1 mb-4">
+        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-[#F5F6F8] mt-1 mb-4">
           Le Laboratoire Créatif & Code
         </h1>
-        <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
+        <p className="text-[#D6DCE6] text-sm sm:text-base leading-relaxed font-sans">
           Cet espace est dédié à mes expérimentations personnelles, scripts d'automatisation, prototypes d'IA et recherches en ingénierie visuelle. C'est ici que sont éprouvées les méthodes avant d'intégrer le studio.
         </p>
       </div>
@@ -110,7 +105,7 @@ export default function LaboPage() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="bento-card h-80 animate-pulse bg-[#121212]" />
+            <div key={i} className="h-80 rounded-2xl bg-[#1A1F2B] border border-[#394150] animate-pulse" />
           ))}
         </div>
       ) : (
@@ -121,38 +116,38 @@ export default function LaboPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: idx * 0.05 }}
-              className="bento-card p-6 flex flex-col justify-between group hover:border-white/20"
+              className="p-6 rounded-2xl bg-[#1A1F2B] border border-[#394150] hover:border-[#8EAFFF]/60 hover:bg-[#232A38] flex flex-col justify-between group transition-all duration-300"
             >
               <div>
                 {/* Media Thumbnail */}
-                <div className="aspect-[16/10] w-full rounded-xl bg-[#161616] overflow-hidden mb-5 border border-white/5 relative">
+                <div className="aspect-[16/10] w-full rounded-xl bg-[#11151D] overflow-hidden mb-5 border border-[#394150] relative">
                   <img
                     src={exp.thumbnailUrl || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80'}
                     alt={exp.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
                     loading="lazy"
                   />
-                  <div className="absolute top-2.5 right-2.5 bg-black/80 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-mono text-emerald-400 border border-emerald-500/20">
+                  <div className="absolute top-2.5 right-2.5 bg-[#11151D]/90 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-mono text-[#8EAFFF] border border-[#8EAFFF]/30">
                     {exp.status || 'Active R&D'}
                   </div>
                 </div>
 
-                <h3 className="font-display font-bold text-base text-white mb-2 group-hover:text-accent-cyan transition-colors line-clamp-2">
+                <h3 className="font-display font-bold text-base text-[#F5F6F8] mb-2 group-hover:text-[#8EAFFF] transition-colors line-clamp-2">
                   {exp.title}
                 </h3>
 
-                <p className="text-gray-400 text-xs leading-relaxed mb-6 line-clamp-3">
+                <p className="text-[#B6C0D0] text-xs leading-relaxed mb-6 line-clamp-3 font-sans">
                   {exp.description}
                 </p>
               </div>
 
               {/* Tags */}
-              <div className="pt-4 border-t border-white/5 flex flex-wrap gap-1.5">
+              <div className="pt-4 border-t border-[#394150] flex flex-wrap gap-1.5">
                 {exp.tags &&
                   exp.tags.map((tag, tIdx) => (
                     <span
                       key={tIdx}
-                      className="px-2 py-0.5 rounded text-[10px] font-mono text-gray-400 bg-[#161616] border border-white/5"
+                      className="px-2 py-0.5 rounded text-[10px] font-mono text-[#B6C0D0] bg-[#11151D] border border-[#394150]"
                     >
                       {tag}
                     </span>
@@ -164,18 +159,18 @@ export default function LaboPage() {
       )}
 
       {/* ── BOTTOM BANNER ───────────────────────────────────────── */}
-      <div className="mt-16 p-8 sm:p-10 rounded-2xl bg-[#141414] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div className="mt-16 p-8 sm:p-10 rounded-2xl bg-[#1A1F2B] border border-[#394150] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl">
         <div>
-          <h3 className="font-display font-bold text-xl text-white mb-1">
+          <h3 className="font-display font-bold text-xl text-[#F5F6F8] mb-1">
             Un besoin technique particulier ou un POC à développer ?
           </h3>
-          <p className="text-xs sm:text-sm text-gray-400 max-w-xl">
+          <p className="text-xs sm:text-sm text-[#D6DCE6] max-w-xl font-sans">
             Je développe des prototypes sur-mesure combinant vision par ordinateur, API OpenAI / Claude et scrapers haute performance.
           </p>
         </div>
         <a
-          href="mailto:contact@vitalistudio.com?subject=Demande%20R%26D%20/%20Labo"
-          className="px-6 py-3 rounded-xl bg-white text-black font-semibold text-xs hover:bg-gray-200 transition flex-shrink-0"
+          href="mailto:vitali.studio.contact@gmail.com?subject=Demande%20R%26D%20/%20Labo"
+          className="px-6 py-3.5 rounded-xl bg-[#8EAFFF] hover:bg-[#B3CAFF] text-[#0B0D12] font-semibold text-xs transition shadow-lg shadow-[#8EAFFF]/15 flex-shrink-0 active:scale-[0.98]"
         >
           Discuter d’une expérimentation
         </a>

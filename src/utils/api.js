@@ -94,9 +94,20 @@ export function deleteProject(id) {
 
 // ── Realisations (Démonstrations 9:16) CRUD ───────────────────────
 
-export function getRealisations(category) {
-  const query = category && category !== 'Tous' ? `?category=${encodeURIComponent(category)}` : '';
-  return fetchAPI(`/realisations${query}`);
+export function getRealisations(params) {
+  if (typeof params === 'string') {
+    const query = params && params !== 'Tous' ? `?category=${encodeURIComponent(params)}` : '';
+    return fetchAPI(`/realisations${query}`);
+  }
+  const searchParams = new URLSearchParams();
+  if (params?.category && params.category !== 'Tous') {
+    searchParams.set('category', params.category);
+  }
+  if (params?.share) {
+    searchParams.set('share', params.share);
+  }
+  const qs = searchParams.toString();
+  return fetchAPI(`/realisations${qs ? '?' + qs : ''}`);
 }
 
 export function createRealisation(data) {
@@ -347,3 +358,76 @@ export function deleteContactMessage(id) {
 export function getUnreadCounts() {
   return fetchAPI('/unread-counts');
 }
+
+// ── ImageKit Direct Upload & Auth ──────────────────────────────────
+
+export function getImageKitAuth() {
+  return fetchAPI('/imagekit-auth');
+}
+
+/**
+ * Téléverse un fichier vidéo directement vers l'API ImageKit depuis le navigateur
+ * en contournant la limite de 6 Mo de Netlify Functions et avec suivi de progression (0-100%).
+ */
+export async function uploadVideoToImageKit(file, onProgress = () => {}) {
+  // 1. Récupération des paramètres signés
+  const auth = await getImageKitAuth();
+  if (!auth?.signature || !auth?.token) {
+    throw new Error('Paramètres d’authentification ImageKit manquants.');
+  }
+
+  // 2. Nettoyage du nom de fichier
+  const cleanName = file.name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9.-]/g, '_');
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('fileName', cleanName);
+  formData.append('publicKey', auth.publicKey);
+  formData.append('signature', auth.signature);
+  formData.append('expire', String(auth.expire));
+  formData.append('token', auth.token);
+  formData.append('folder', '/vitali-studio/realisations');
+  formData.append('useUniqueFileName', 'true');
+  formData.append('tags', 'realisation,portfolio,9:16');
+
+  // 3. Téléversement direct avec XMLHttpRequest pour la progression
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://upload.imagekit.io/api/v1/files/upload', true);
+
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable && typeof onProgress === 'function') {
+        const percent = Math.round((e.loaded / e.total) * 100);
+        onProgress(percent);
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          const res = JSON.parse(xhr.responseText);
+          resolve(res);
+        } catch {
+          resolve({ url: xhr.responseText });
+        }
+      } else {
+        let msg = 'Échec du téléversement vers ImageKit';
+        try {
+          const errData = JSON.parse(xhr.responseText);
+          if (errData?.message) msg = errData.message;
+        } catch {}
+        reject(new Error(msg));
+      }
+    };
+
+    xhr.onerror = () => {
+      reject(new Error('Erreur réseau lors de l’envoi de la vidéo vers ImageKit.'));
+    };
+
+    xhr.send(formData);
+  });
+}
+

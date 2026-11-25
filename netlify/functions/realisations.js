@@ -16,8 +16,22 @@ export const handler = async (event) => {
       const adminCode = event.headers['x-admin-code'];
       const expectedCode = process.env.ADMIN_ACCESS_CODE;
       const isAdmin = adminCode && expectedCode && adminCode === expectedCode;
+      const shareId = event.queryStringParameters?.share || event.queryStringParameters?.id;
 
-      const filter = isAdmin ? {} : { active: true };
+      let filter = {};
+      if (!isAdmin) {
+        if (shareId) {
+          // Vidéo privée accessible via son lien de partage direct (les brouillons restent privés admin)
+          filter = { _id: shareId, visibility: { $ne: 'draft' } };
+        } else {
+          // Affichage public standard : uniquement les vidéos publiées
+          filter = {
+            active: true,
+            $or: [{ visibility: 'public' }, { visibility: { $exists: false } }],
+          };
+        }
+      }
+
       const category = event.queryStringParameters?.category;
 
       if (category && category !== 'Tous') {

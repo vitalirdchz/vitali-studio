@@ -254,31 +254,31 @@ export default function AdminPacksOptions() {
       </AnimatePresence>
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#394150] pb-6">
         <div>
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-indigo-400" />
-            <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">
+            <span className="w-2 h-2 rounded-full bg-[#8EAFFF] animate-pulse" />
+            <span className="text-xs font-mono uppercase tracking-widest text-[#8EAFFF]">
               COMMERCE & CATALOGUE
             </span>
           </div>
-          <h1 className="font-display text-2xl sm:text-3xl font-bold text-white mt-1">
-            Gestion des Packs & Options
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#F5F6F8] mt-1">
+            Packs & Tarifs (Clipping)
           </h1>
-          <p className="text-gray-400 text-sm mt-1">
-            Gérez directement dans MongoDB les offres affichées sur /services/clipping.
+          <p className="text-[#B6C0D0] text-xs mt-1">
+            Gérez directement les offres, formules et options affichées sur <code className="text-[#8EAFFF]">/services/clipping</code>.
           </p>
         </div>
 
         {/* Section switcher */}
-        <div className="inline-flex rounded-xl bg-[#141417] p-1 border border-white/10 self-start sm:self-auto">
+        <div className="inline-flex rounded-xl bg-[#11151D] p-1 border border-[#394150] self-start sm:self-auto">
           <button
             type="button"
             onClick={() => setActiveTab('packs')}
             className={`px-4 py-2 rounded-lg text-xs font-mono transition flex items-center gap-2 ${
               activeTab === 'packs'
-                ? 'bg-indigo-600 text-white font-semibold shadow-sm'
-                : 'text-gray-400 hover:text-white'
+                ? 'bg-[#8EAFFF] text-[#0B0D12] font-bold shadow-sm'
+                : 'text-[#B6C0D0] hover:text-[#F5F6F8]'
             }`}
           >
             <HiSparkles className="w-4 h-4" />
@@ -289,8 +289,8 @@ export default function AdminPacksOptions() {
             onClick={() => setActiveTab('options')}
             className={`px-4 py-2 rounded-lg text-xs font-mono transition flex items-center gap-2 ${
               activeTab === 'options'
-                ? 'bg-indigo-600 text-white font-semibold shadow-sm'
-                : 'text-gray-400 hover:text-white'
+                ? 'bg-[#8EAFFF] text-[#0B0D12] font-bold shadow-sm'
+                : 'text-[#B6C0D0] hover:text-[#F5F6F8]'
             }`}
           >
             <HiWrenchScrewdriver className="w-4 h-4" />

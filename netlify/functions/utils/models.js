@@ -103,6 +103,9 @@ const siteSettingSchema = new mongoose.Schema(
         'Transformez vos contenus longs en clips viraux optimisés pour TikTok, Reels & Shorts — propulsés par l’intelligence artificielle.',
     },
     contactEmail: { type: String, default: 'contact@vitalistudio.com' },
+    imagekitUrlEndpoint: { type: String, default: '' },
+    imagekitPublicKey: { type: String, default: '' },
+    imagekitPrivateKey: { type: String, default: '' },
   },
   { timestamps: true }
 );
@@ -138,11 +141,21 @@ const realisationSchema = new mongoose.Schema(
       default: 'Podcast',
       required: true,
     },
+    aspectRatio: {
+      type: String,
+      enum: ['9:16', '16:9'],
+      default: '9:16',
+    },
     description: { type: String },
     videoUrl: { type: String, required: true },
     thumbnailUrl: { type: String },
     order: { type: Number, default: 0 },
     active: { type: Boolean, default: true },
+    visibility: {
+      type: String,
+      enum: ['public', 'draft', 'private'],
+      default: 'public',
+    },
   },
   { timestamps: true }
 );

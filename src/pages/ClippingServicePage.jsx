@@ -148,279 +148,272 @@ export default function ClippingServicePage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const getFiverrLink = (pack) => {
-    return pack.fiverrUrl?.trim() || globalFiverr;
-  };
+  const sortedPacks = [...packs].sort((a, b) => (a.order || 0) - (b.order || 0));
+  const sortedOptions = [...options].sort((a, b) => (a.order || 0) - (b.order || 0));
 
   return (
     <div className="relative overflow-hidden">
       {/* Halo radial diffus en arrière-plan */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[450px] pointer-events-none radial-halo opacity-90 z-0" />
 
-      <div className="relative z-10 pt-28 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        {/* ── RETOUR VERS /SERVICES ───────────────────────────────── */}
-        <div className="mb-8">
-          <Link
-            to="/services"
-            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-gray-400 hover:text-white transition group py-1.5 px-3 rounded-lg bg-white/5 border border-white/10 hover:border-indigo-500/30"
+      <div className="relative z-10 pt-28 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-24">
+        {/* ── EN-TÊTE & RETOUR ──────────────────────────────────────── */}
+        <section>
+          <div className="mb-8">
+            <Link
+              to="/services"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#1A1F2B] hover:bg-[#232A38] border border-[#394150] text-[#B6C0D0] hover:text-[#F5F6F8] text-xs font-mono transition"
+            >
+              <HiArrowLeft className="w-4 h-4 text-[#8EAFFF]" />
+              <span>Retour au catalogue des services</span>
+            </Link>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="max-w-3xl"
           >
-            <HiArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
-            <span>Retour aux services</span>
-          </Link>
-        </div>
-
-        {/* ── EN-TÊTE DU SERVICE ──────────────────────────────────── */}
-        <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[11px] font-mono uppercase mb-3 font-medium">
-            ● Service Actif & Prêt à la commande
-          </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mb-4">
-            Clipping Vidéo (Shorts / Reels / TikTok)
-          </h1>
-          <p className="text-gray-400 text-base leading-relaxed">
-            Transformez vos vidéos longues, podcasts, replays de lives et conférences en extraits verticaux (9:16) haute performance. Des packs clairs et calibrés par nombre d’extraits, avec commande directe et sécurisée.
-          </p>
-
-          {/* Note importante : AUCUN abonnement */}
-          <div className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-gray-400 bg-[#111113] px-3.5 py-1.5 rounded-lg border border-white/10">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-            <span>Paiement unique au pack • Aucun abonnement mensuel imposé</span>
-          </div>
-        </div>
-
-        {/* ── SECTION 1 : LES 3 PACKS (PAIEMENT UNIQUE) ───────────── */}
-        <section className="mb-24">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">
-                FORMULES AU NOMBRE D’EXTRAITS
-              </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mt-1">
-                Les 3 Packs Clés en Main
-              </h2>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1A1F2B] border border-[#8EAFFF]/40 text-xs font-mono text-[#8EAFFF] mb-4">
+              <span>● Format 9:16 Haute Rétention</span>
             </div>
-            <span className="text-xs font-mono text-gray-500 hidden sm:inline">
-              Tarifs transparents • Prêt à poster
+
+            <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-[#F5F6F8] mb-4">
+              Clipping Vidéo (TikTok / Reels / Shorts)
+            </h1>
+
+            <p className="text-[#D6DCE6] text-base leading-relaxed font-sans mb-6">
+              Transformez vos contenus longs (lives, podcasts, conférences, vidéos YouTube) en extraits verticaux percutants. Formules claires avec paiement unique au nombre d’extraits livrés. Aucun abonnement récurrent.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-[#B6C0D0]">
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8EAFFF]" />
+                Paiement unique au clip
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8EAFFF]" />
+                Export HD 1080x1920
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8EAFFF]" />
+                Commande sécurisée Fiverr
+              </span>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* ── SECTION 1 : LES 3 PACKS (GRILLE TARIFAIRE) ───────────── */}
+        <section>
+          <div className="mb-10 text-center max-w-2xl mx-auto">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#8EAFFF] block mb-2 font-medium">
+              GRILLE DES FORMULES
             </span>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#F5F6F8]">
+              Choisissez le volume adapté à votre contenu
+            </h2>
+            <p className="text-[#B6C0D0] text-sm mt-2 font-sans">
+              Tous nos packs incluent le recadrage 9:16, la sélection des meilleurs moments et l'export HD.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-            {packs.map((pack, idx) => {
-              const isHighlight = pack.isFeatured ?? pack.highlight;
-              const targetUrl = getFiverrLink(pack);
-              const packTitle = pack.title || pack.name;
-              const packCount = pack.clipCount || pack.clipsCount || pack.badge;
+            {sortedPacks.map((pack) => {
+              const packTargetUrl = pack.fiverrUrl?.trim() || globalFiverr;
+              const isFeatured = pack.isFeatured;
 
               return (
-                <motion.div
-                  key={pack._id || pack.id || idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: idx * 0.1 }}
-                  className={`bento-card p-8 flex flex-col justify-between relative ${
-                    isHighlight
-                      ? 'border-indigo-500/40 bg-[#131317] shadow-2xl shadow-indigo-500/[0.04]'
-                      : 'bg-[#111113] border-white/10 hover:border-indigo-500/30'
+                <div
+                  key={pack._id || pack.id || pack.order}
+                  className={`rounded-2xl p-8 flex flex-col justify-between transition-all duration-300 relative ${
+                    isFeatured
+                      ? 'bg-[#232A38] border-2 border-[#8EAFFF] shadow-2xl shadow-[#8EAFFF]/10 lg:-translate-y-2'
+                      : 'bg-[#1A1F2B] border border-[#394150] hover:border-[#8EAFFF]/60 hover:bg-[#232A38]'
                   }`}
                 >
-                  {isHighlight && (
-                    <div className="absolute -top-3.5 right-6 bg-indigo-500 text-white text-[10px] font-mono font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+                  {isFeatured && (
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#8EAFFF] text-[#0B0D12] text-[11px] font-mono font-bold uppercase tracking-wider px-3.5 py-1 rounded-full shadow-md">
                       Recommandé
                     </div>
                   )}
 
-                <div>
-                  {/* Badge & Nom */}
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="text-xs font-mono text-gray-400 uppercase tracking-widest">
-                      Formule {String(idx + 1).padStart(2, '0')}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[11px] font-mono text-indigo-300 font-medium">
-                      {packCount}
-                    </span>
-                  </div>
-
-                  <h3 className="font-display text-2xl font-bold text-white mb-2">
-                    {packTitle}
-                  </h3>
-
-                  <p className="text-xs text-gray-400 leading-relaxed mb-6 min-h-[36px]">
-                    {pack.description}
-                  </p>
-
-                  {/* Specs & Facturation */}
-                  <div className="space-y-2.5 py-4 border-y border-white/10 mb-6 text-xs font-mono text-gray-300">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-400">Volume :</span>
-                      <span className="font-semibold text-white">
-                        {packCount}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-400">Tarification :</span>
-                      <span className="text-indigo-400 font-medium">
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-xs font-mono text-[#8EAFFF] uppercase tracking-wider font-medium">
                         {pack.price || 'Paiement unique'}
                       </span>
+                      <span className="text-xs font-mono text-[#B6C0D0]">
+                        0 abonnement
+                      </span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-400">Engagement :</span>
-                      <span className="text-gray-400">Zéro abonnement</span>
+
+                    <h3 className="font-display text-2xl font-bold text-[#F5F6F8] mb-1">
+                      {pack.title}
+                    </h3>
+
+                    <div className="text-3xl font-extrabold text-[#8EAFFF] font-display mb-4">
+                      {pack.clipCount}
+                    </div>
+
+                    <p className="text-[#D6DCE6] text-xs sm:text-sm leading-relaxed mb-6 font-sans">
+                      {pack.description}
+                    </p>
+
+                    <div className="pt-6 border-t border-[#394150] space-y-3 mb-8">
+                      <span className="text-[11px] font-mono text-[#B6C0D0] uppercase tracking-wider block font-medium">
+                        Ce qui est inclus :
+                      </span>
+                      <ul className="space-y-2.5">
+                        {pack.features &&
+                          pack.features.map((feat, fIdx) => (
+                            <li
+                              key={fIdx}
+                              className="text-xs text-[#D6DCE6] flex items-start gap-2.5 leading-relaxed font-sans"
+                            >
+                              <HiCheck className="w-4 h-4 text-[#8EAFFF] flex-shrink-0 mt-0.5" />
+                              <span>{feat}</span>
+                            </li>
+                          ))}
+                      </ul>
                     </div>
                   </div>
 
-                  {/* Features List */}
-                  <div className="space-y-3 mb-8">
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-gray-400 block">
-                      Inclus dans l’offre :
-                    </span>
-                    <ul className="space-y-2.5">
-                      {(pack.features || []).map((feat, fIdx) => (
-                        <li
-                          key={fIdx}
-                          className="flex items-start gap-2.5 text-xs text-gray-300 leading-relaxed"
-                        >
-                          <HiCheck className="w-4 h-4 text-indigo-400 flex-shrink-0 mt-0.5" />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <a
+                    href={packTargetUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-full py-3.5 px-6 rounded-xl font-semibold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-lg active:scale-[0.98] ${
+                      isFeatured
+                        ? 'bg-[#8EAFFF] hover:bg-[#B3CAFF] text-[#0B0D12] shadow-[#8EAFFF]/15'
+                        : 'bg-[#11151D] hover:bg-[#232A38] border border-[#394150] hover:border-[#8EAFFF]/60 text-[#F5F6F8]'
+                    }`}
+                  >
+                    <span>Commander sur Fiverr</span>
+                    <HiArrowTopRightOnSquare className="w-3.5 h-3.5" />
+                  </a>
                 </div>
+              );
+            })}
+          </div>
+        </section>
 
-                {/* CTA Button towards Fiverr */}
-                <a
-                  href={targetUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`w-full py-3.5 px-4 rounded-xl text-xs font-semibold text-center flex items-center justify-center gap-2 transition ${
-                    isHighlight
-                      ? 'bg-white text-black hover:bg-gray-200 shadow-md'
-                      : 'bg-[#18181C] text-white hover:bg-[#222228] border border-white/10 hover:border-indigo-500/30'
-                  }`}
+        {/* ── SECTION 2 : OPTIONS À LA CARTE (EXTRAS) ──────────────── */}
+        <section>
+          <div className="mb-10 text-center max-w-2xl mx-auto">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#8EAFFF] block mb-2 font-medium">
+              OPTIONS À LA CARTE
+            </span>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#F5F6F8]">
+              Personnalisez votre commande
+            </h2>
+            <p className="text-[#B6C0D0] text-sm mt-2 font-sans">
+              Ajoutables en extra directement lors de la configuration de votre commande sur Fiverr.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sortedOptions.map((opt, idx) => {
+              const fallbackIcons = [
+                HiBolt,
+                HiLanguage,
+                HiArrowsPointingOut,
+                HiSpeakerWave,
+                HiPhoto,
+              ];
+              const IconComponent = opt.icon || fallbackIcons[idx % fallbackIcons.length];
+
+              return (
+                <div
+                  key={opt._id || opt.id || idx}
+                  className="p-6 rounded-2xl bg-[#1A1F2B] border border-[#394150] hover:border-[#8EAFFF]/60 hover:bg-[#232A38] transition flex flex-col justify-between group"
                 >
-                  <span>Commander sur Fiverr</span>
-                  <HiArrowTopRightOnSquare className="w-4 h-4" />
-                </a>
-              </motion.div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── SECTION 2 : OPTIONS (À LA CARTE) ────────────────────── */}
-      <section className="mb-24 pt-12 border-t border-white/10">
-        <div className="max-w-2xl mb-8">
-          <span className="text-xs font-mono uppercase tracking-widest text-gray-500">
-            PERSONNALISATION ADDITIONNELLE
-          </span>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mt-1">
-            Options à la Carte
-          </h2>
-          <p className="text-gray-400 text-sm mt-2">
-            Modules optionnels activables lors de votre commande pour affiner l'habillage, la rapidité ou l'impact de vos vidéos.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {options.map((opt, idx) => {
-            const fallbackIcons = [
-              HiBolt,
-              HiLanguage,
-              HiArrowsPointingOut,
-              HiSpeakerWave,
-              HiPhoto,
-            ];
-            const IconComponent = opt.icon || fallbackIcons[idx % fallbackIcons.length];
-
-            return (
-              <div
-                key={opt._id || opt.id || idx}
-                className="bento-card p-6 bg-[#111113] border-white/10 hover:border-indigo-500/30 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#161619] border border-white/10 flex items-center justify-center text-indigo-400">
-                      <IconComponent className="w-5 h-5" />
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-[#11151D] border border-[#394150] flex items-center justify-center text-[#8EAFFF]">
+                        <IconComponent className="w-5 h-5" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {opt.price && (
+                          <span className="text-[11px] font-mono text-[#8EAFFF] font-medium">
+                            {opt.price}
+                          </span>
+                        )}
+                        {opt.tag && (
+                          <span className="px-2.5 py-0.5 rounded-md bg-[#11151D] border border-[#394150] text-[10px] font-mono text-[#B6C0D0] uppercase tracking-wider font-medium">
+                            {opt.tag}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      {opt.price && (
-                        <span className="text-[11px] font-mono text-indigo-400 font-medium">
-                          {opt.price}
-                        </span>
-                      )}
-                      {opt.tag && (
-                        <span className="px-2.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[10px] font-mono text-gray-400 uppercase tracking-wider">
-                          {opt.tag}
-                        </span>
-                      )}
-                    </div>
+
+                    <h3 className="font-display text-base font-bold text-[#F5F6F8] mb-2 group-hover:text-[#8EAFFF] transition-colors">
+                      {opt.title}
+                    </h3>
+
+                    <p className="text-[#B6C0D0] text-xs leading-relaxed font-sans">
+                      {opt.description}
+                    </p>
                   </div>
 
-                  <h3 className="font-display text-base font-bold text-white mb-2">
-                    {opt.title}
-                  </h3>
-
-                  <p className="text-gray-400 text-xs leading-relaxed">
-                    {opt.description}
-                  </p>
+                  <div className="pt-4 mt-4 border-t border-[#394150] text-[11px] font-mono text-[#B6C0D0] flex items-center justify-between">
+                    <span>Option à la carte</span>
+                    <span className="text-[#8EAFFF]">À sélectionner sur Fiverr</span>
+                  </div>
                 </div>
+              );
+            })}
+          </div>
+        </section>
 
-                <div className="pt-4 mt-4 border-t border-white/5 text-[11px] font-mono text-gray-500 flex items-center justify-between">
-                  <span>Option à la carte</span>
-                  <span className="text-gray-400">À sélectionner sur Fiverr</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── SECTION 3 : ENCART CONSEIL QUALITÉ (SOBRE & TRANSPARENT) */}
-      <section className="pt-12 border-t border-white/10">
-        <div className="rounded-2xl bg-[#0D0D0D] border border-white/15 p-8 sm:p-10 relative overflow-hidden">
-          <div className="flex items-start gap-5">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center flex-shrink-0">
-              <HiShieldExclamation className="w-6 h-6" />
-            </div>
-
-            <div className="space-y-4 max-w-4xl">
-              <div>
-                <span className="text-xs font-mono uppercase tracking-widest text-amber-400/90">
-                  RECOMMANDATION TECHNIQUE
-                </span>
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
-                  Conseil Qualité & Fichiers Sources
-                </h3>
+        {/* ── SECTION 3 : ENCART CONSEIL QUALITÉ (SOBRE & TRANSPARENT) */}
+        <section className="pt-12 border-t border-[#394150]">
+          <div className="rounded-2xl bg-[#1A1F2B] border border-[#394150] p-8 sm:p-10 relative overflow-hidden shadow-2xl">
+            <div className="flex items-start gap-5">
+              <div className="w-12 h-12 rounded-xl bg-[#11151D] border border-[#8EAFFF]/30 text-[#8EAFFF] flex items-center justify-center flex-shrink-0">
+                <HiShieldExclamation className="w-6 h-6" />
               </div>
 
-              <div className="space-y-3 text-sm text-gray-300 leading-relaxed">
-                <p>
-                  <strong className="text-white">Résolution recommandée :</strong>{' '}
-                  La résolution 1080p (Full HD) n’est pas strictement obligatoire, mais elle est{' '}
-                  <span className="text-white font-medium">fortement conseillée</span>{' '}
-                  pour garantir un rendu net, professionnel et lisible après le recadrage vertical au format 9:16.
-                </p>
-
-                <p>
-                  <strong className="text-white">Fichiers basse qualité :</strong>{' '}
-                  Si votre vidéo source est de basse qualité (ex : 720p fortement compressé, stream instable ou webcam floue), le recadrage 9:16 peut accentuer les défauts et dégrader le rendu final sur les écrans de smartphone récents.
-                </p>
-
-                <p className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 text-xs text-gray-400">
-                  <span className="text-white font-mono uppercase tracking-wider block mb-1">
-                    Option d’amélioration par IA :
+              <div className="space-y-4 max-w-4xl">
+                <div>
+                  <span className="text-xs font-mono uppercase tracking-widest text-[#8EAFFF] font-medium">
+                    RECOMMANDATION TECHNIQUE
                   </span>
-                  Il est possible de demander une tentative d’amélioration de la netteté par intelligence artificielle (upscaling / débruitage). Toutefois, par souci d'honnêteté et de rigueur, nous précisons qu’
-                  <strong className="text-gray-200">
-                    aucune promesse ni garantie
-                  </strong>{' '}
-                  ne peut être formulée quant au résultat final, celui-ci dépendant intrinsèquement de l’information visuelle disponible dans le fichier d'origine.
-                </p>
+                  <h3 className="font-display text-xl sm:text-2xl font-bold text-[#F5F6F8] mt-1">
+                    Conseil Qualité & Fichiers Sources
+                  </h3>
+                </div>
+
+                <div className="space-y-3 text-sm text-[#D6DCE6] leading-relaxed font-sans">
+                  <p>
+                    <strong className="text-[#F5F6F8]">Résolution recommandée :</strong>{' '}
+                    La résolution 1080p (Full HD) n’est pas strictement obligatoire, mais elle est{' '}
+                    <span className="text-[#8EAFFF] font-medium">fortement conseillée</span>{' '}
+                    pour garantir un rendu net, professionnel et lisible après le recadrage vertical au format 9:16.
+                  </p>
+
+                  <p>
+                    <strong className="text-[#F5F6F8]">Fichiers basse qualité :</strong>{' '}
+                    Si votre vidéo source est de basse qualité (ex : 720p compressé, stream instable ou webcam floue), le recadrage 9:16 peut accentuer les défauts sur les écrans récents.
+                  </p>
+
+                  <div className="p-4 rounded-xl bg-[#11151D] border border-[#394150] text-xs text-[#B6C0D0]">
+                    <span className="text-[#F5F6F8] font-mono uppercase tracking-wider block mb-1 font-medium">
+                      Option d’amélioration par IA :
+                    </span>
+                    Il est possible de demander une tentative d’amélioration de netteté par intelligence artificielle (upscaling / débruitage). Toutefois, par souci d'honnêteté et de rigueur, nous précisons qu’
+                    <strong className="text-[#F5F6F8]">
+                      aucune promesse ni garantie
+                    </strong>{' '}
+                    ne peut être formulée quant au résultat final, celui-ci dépendant intrinsèquement de l’information disponible dans le fichier d'origine.
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
       </div>
     </div>
   );

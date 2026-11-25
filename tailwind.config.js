@@ -4,48 +4,36 @@ export default {
   theme: {
     extend: {
       colors: {
-        dark: {
-          950: '#060608',
-          900: '#09090B', // Main Deep Pure Anthracite Background
-          850: '#0E0E11',
-          800: '#111113', // Bento Surface 1
-          750: '#161619',
-          700: '#1A1A1E', // Bento Surface 2
-          600: '#27272A',
-          500: '#3F3F46',
-        },
+        // Design Tokens Studio Digital Premium
         studio: {
-          bg: '#09090B',
-          card: '#111113',
-          cardHover: '#161619',
-          border: 'rgba(255, 255, 255, 0.08)',
-          borderHover: 'rgba(99, 102, 241, 0.25)',
-          light: '#F5F5F7',
-          muted: '#A1A1AA',
-          subtle: '#71717A',
-          indigo: '#6366F1',
-          indigoLight: '#818CF8',
+          bg: '#0B0D12',           // Fond principal
+          secondary: '#11151D',    // Fond secondaire
+          card: '#1A1F2B',         // Cartes
+          surface: '#232A38',      // Surfaces surélevées
+          border: '#394150',       // Bordures
+          borderHover: '#8EAFFF',  // Bordures hover
+          title: '#F5F6F8',        // Titres
+          text: '#D6DCE6',         // Texte principal
+          muted: '#B6C0D0',        // Texte secondaire
+          accent: '#8EAFFF',       // Bleu électrique doux
+          accentHover: '#B3CAFF',  // Bleu accent hover
         },
-        indigo: {
-          DEFAULT: '#6366F1',
-          soft: '#818CF8',
-          subtle: 'rgba(99, 102, 241, 0.12)',
-          glow: 'rgba(99, 102, 241, 0.09)',
-        },
-        tech: {
-          bg: '#0A0A0A',
-          card: '#121212',
-          cardHover: '#181818',
-          border: 'rgba(255, 255, 255, 0.08)',
-          borderHover: 'rgba(255, 255, 255, 0.18)',
-          light: '#F3F4F6',
-          muted: '#9CA3AF',
-          subtle: '#6B7280',
-          accent: '#00F2FE',
+        dark: {
+          950: '#06070A',
+          900: '#0B0D12', // Fond principal
+          850: '#11151D', // Fond secondaire
+          800: '#1A1F2B', // Cartes
+          750: '#232A38', // Surfaces surélevées
+          700: '#2D3546',
+          600: '#394150', // Bordures
+          500: '#4D586D',
+          400: '#717F9A',
         },
         accent: {
-          rose: '#FF0050',
-          cyan: '#00F2FE',
+          DEFAULT: '#8EAFFF',
+          hover: '#B3CAFF',
+          subtle: 'rgba(142, 175, 255, 0.12)',
+          glow: 'rgba(142, 175, 255, 0.08)',
         },
       },
       fontFamily: {
@@ -54,8 +42,8 @@ export default {
         mono: ['JetBrains Mono', 'SF Mono', 'Menlo', 'monospace'],
       },
       backgroundImage: {
-        'gradient-accent': 'linear-gradient(135deg, #FF0050, #00F2FE)',
-        'gradient-tech': 'linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01))',
+        'gradient-accent': 'linear-gradient(135deg, #8EAFFF, #B3CAFF)',
+        'gradient-card': 'linear-gradient(180deg, rgba(35, 42, 56, 0.4) 0%, rgba(26, 31, 43, 0.9) 100%)',
       },
     },
   },

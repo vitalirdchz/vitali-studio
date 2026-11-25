@@ -62,17 +62,17 @@ export default function Testimonials() {
     <section id="avis" className="py-12 relative overflow-hidden">
       <div className="max-w-4xl mx-auto relative z-10">
         <div className="text-center mb-10">
-          <span className="text-xs font-mono uppercase tracking-widest text-indigo-400 block mb-2">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#8EAFFF] block mb-2 font-medium">
             RETOURS D’EXPÉRIENCE
           </span>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#F5F6F8]">
             Avis & Retours Clients
           </h2>
         </div>
 
         {/* Carousel Card */}
         <div className="relative">
-          <div className="p-8 sm:p-12 relative overflow-hidden border border-white/10 bg-[#111113] shadow-2xl rounded-2xl min-h-[280px] flex flex-col justify-between">
+          <div className="p-8 sm:p-12 relative overflow-hidden border border-[#394150] bg-[#1A1F2B] shadow-2xl rounded-2xl min-h-[280px] flex flex-col justify-between">
             <RiDoubleQuotesL className="absolute -top-4 -right-4 text-9xl text-white/[0.03] pointer-events-none select-none" />
 
             <AnimatePresence mode="wait">
@@ -86,43 +86,43 @@ export default function Testimonials() {
               >
                 <div>
                   {/* Rating Stars */}
-                  <div className="flex items-center gap-1 mb-5">
+                  <div className="flex items-center gap-1.5 mb-5">
                     {[...Array(5)].map((_, i) => (
                       <HiStar
                         key={i}
                         className={`w-4 h-4 ${
                           i < (current.rating || 5)
                             ? 'text-yellow-400 fill-yellow-400'
-                            : 'text-gray-600'
+                            : 'text-[#4D586D]'
                         }`}
                       />
                     ))}
-                    <span className="ml-2 text-[11px] font-mono text-gray-400 uppercase tracking-wider">
+                    <span className="ml-2 text-xs font-mono text-[#B6C0D0] uppercase tracking-wider font-medium">
                       Vérifié ★★★★★
                     </span>
                   </div>
 
                   {/* Quote */}
-                  <p className="text-gray-200 text-base sm:text-lg font-normal leading-relaxed italic mb-6 font-sans">
+                  <p className="text-[#D6DCE6] text-base sm:text-lg font-normal leading-relaxed italic mb-6 font-sans">
                     « {current.content} »
                   </p>
                 </div>
 
                 {/* Author Info */}
-                <div className="flex items-center gap-3 pt-5 border-t border-white/5">
+                <div className="flex items-center gap-3 pt-5 border-t border-[#394150]">
                   {current.avatarUrl && (
                     <img
                       src={current.avatarUrl}
                       alt={current.clientName}
-                      className="w-11 h-11 rounded-full object-cover border border-white/10"
+                      className="w-11 h-11 rounded-full object-cover border border-[#394150]"
                     />
                   )}
                   <div>
-                    <h4 className="font-display font-bold text-white text-sm sm:text-base">
+                    <h4 className="font-display font-bold text-[#F5F6F8] text-sm sm:text-base">
                       {current.clientName}
                     </h4>
                     {current.clientTitle && (
-                      <p className="text-xs text-gray-400 font-sans">
+                      <p className="text-xs text-[#B6C0D0] font-sans font-medium">
                         {current.clientTitle}
                       </p>
                     )}
@@ -136,15 +136,15 @@ export default function Testimonials() {
           {testimonials.length > 1 && (
             <div className="flex items-center justify-between mt-6">
               {/* Pagination Dots */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 {testimonials.map((_, dotIdx) => (
                   <button
                     key={dotIdx}
                     onClick={() => setCurrentIndex(dotIdx)}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
                       currentIndex === dotIdx
-                        ? 'w-6 bg-indigo-500'
-                        : 'w-1.5 bg-white/20 hover:bg-white/40'
+                        ? 'w-6 bg-[#8EAFFF]'
+                        : 'w-2 bg-[#394150] hover:bg-[#4D586D]'
                     }`}
                     aria-label={`Aller au témoignage ${dotIdx + 1}`}
                   />
@@ -155,14 +155,14 @@ export default function Testimonials() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handlePrev}
-                  className="p-2 rounded-lg bg-[#141416] hover:bg-[#1C1C20] text-gray-400 hover:text-white border border-white/10 transition active:scale-95"
+                  className="p-2.5 rounded-xl bg-[#1A1F2B] hover:bg-[#232A38] text-[#D6DCE6] hover:text-[#8EAFFF] border border-[#394150] hover:border-[#8EAFFF]/60 transition active:scale-95"
                   aria-label="Témoignage précédent"
                 >
                   <HiChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleNext}
-                  className="p-2 rounded-lg bg-[#141416] hover:bg-[#1C1C20] text-gray-400 hover:text-white border border-white/10 transition active:scale-95"
+                  className="p-2.5 rounded-xl bg-[#1A1F2B] hover:bg-[#232A38] text-[#D6DCE6] hover:text-[#8EAFFF] border border-[#394150] hover:border-[#8EAFFF]/60 transition active:scale-95"
                   aria-label="Témoignage suivant"
                 >
                   <HiChevronRight className="w-4 h-4" />

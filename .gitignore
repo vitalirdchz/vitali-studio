@@ -1,0 +1,7 @@
+node_modules
+dist
+.env
+.env.local
+.dev-db.json
+.DS_Store
+deno.lock

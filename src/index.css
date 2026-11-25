@@ -3,14 +3,32 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --bg-main: #0B0D12;
+    --bg-secondary: #11151D;
+    --card-bg: #1A1F2B;
+    --surface-bg: #232A38;
+    --text-title: #F5F6F8;
+    --text-main: #D6DCE6;
+    --text-secondary: #B6C0D0;
+    --accent: #8EAFFF;
+    --accent-hover: #B3CAFF;
+    --border-color: #394150;
+  }
+
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
 
   body {
-    background-color: #09090B;
-    color: #F5F5F7;
+    background-color: #0B0D12;
+    color: #D6DCE6;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #F5F6F8;
   }
 
   /* Custom scrollbar */
@@ -18,57 +36,125 @@
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #09090B;
+    background: #0B0D12;
   }
   ::-webkit-scrollbar-thumb {
-    background: #27272A;
+    background: #394150;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #3F3F46;
+    background: #4D586D;
   }
 }
 
 @layer components {
   .radial-halo {
-    background: radial-gradient(ellipse 65% 45% at 50% 0%, rgba(99, 102, 241, 0.09), transparent 70%);
+    background: radial-gradient(ellipse 65% 45% at 50% 0%, rgba(142, 175, 255, 0.08), transparent 70%);
   }
 
   .radial-halo-subtle {
-    background: radial-gradient(ellipse 60% 40% at 50% 10%, rgba(99, 102, 241, 0.06), transparent 70%);
+    background: radial-gradient(ellipse 60% 40% at 50% 10%, rgba(142, 175, 255, 0.05), transparent 70%);
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[#F5F6F8] via-[#D6DCE6] to-[#B6C0D0] bg-clip-text text-transparent;
   }
 
   .gradient-accent-text {
-    @apply bg-gradient-to-r from-accent-rose to-accent-cyan bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[#8EAFFF] to-[#B3CAFF] bg-clip-text text-transparent;
   }
 
   .bento-card {
-    @apply bg-[#111113] border border-white/10 rounded-2xl transition-all duration-300 hover:border-indigo-500/30 hover:bg-[#151518];
+    @apply bg-[#1A1F2B] border border-[#394150] rounded-2xl transition-all duration-300 hover:border-[#8EAFFF]/60 hover:bg-[#232A38];
   }
 
   .glass {
-    @apply bg-[#111113]/80 backdrop-blur-xl border border-white/10;
+    @apply bg-[#1A1F2B]/90 backdrop-blur-xl border border-[#394150];
   }
 
+  /* Bouton principal : accent bleu avec texte sombre et contrasté (WCAG AAA 11.8:1) */
   .btn-primary {
-    @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 
-           bg-white text-black font-semibold rounded-xl text-sm
-           transition-all duration-200 hover:bg-gray-200 hover:scale-[1.01] active:scale-[0.99];
+    @apply relative inline-flex items-center justify-center gap-2 px-6 py-3.5 
+           bg-[#8EAFFF] text-[#0B0D12] font-semibold rounded-xl text-sm
+           transition-all duration-200 hover:bg-[#B3CAFF] hover:shadow-lg hover:shadow-[#8EAFFF]/20
+           active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
+  /* Bouton secondaire : surface surélevée avec bordure définie et texte clair */
   .btn-secondary {
-    @apply relative inline-flex items-center justify-center gap-2 px-6 py-3
-           bg-[#161619] text-white font-medium rounded-xl border border-white/10 text-sm
-           transition-all duration-200 hover:border-indigo-500/30 hover:bg-[#1C1C20]
-           hover:scale-[1.01] active:scale-[0.99];
+    @apply relative inline-flex items-center justify-center gap-2 px-6 py-3.5
+           bg-[#1A1F2B] text-[#F5F6F8] font-medium rounded-xl border border-[#394150] text-sm
+           transition-all duration-200 hover:border-[#8EAFFF]/60 hover:bg-[#232A38] hover:text-white
+           active:scale-[0.99];
   }
 
   .card {
-    @apply bg-[#111113] border border-white/10 rounded-2xl
-           transition-all duration-300 hover:border-indigo-500/30 hover:bg-[#151518];
+    @apply bg-[#1A1F2B] border border-[#394150] rounded-2xl
+           transition-all duration-300 hover:border-[#8EAFFF]/60 hover:bg-[#232A38];
+  }
+
+  /* Animations d'ambiance globale haute couture */
+  @keyframes ambientFloat1 {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(45px, 35px, 0) scale(1.08);
+    }
+  }
+
+  @keyframes ambientFloat2 {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(-40px, -45px, 0) scale(1.06);
+    }
+  }
+
+  @keyframes ambientFloat3 {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(35px, -30px, 0) scale(1.05);
+    }
+  }
+
+  @keyframes ambientScan {
+    0% {
+      top: -5%;
+      opacity: 0;
+    }
+    15% {
+      opacity: 0.6;
+    }
+    85% {
+      opacity: 0.6;
+    }
+    100% {
+      top: 105%;
+      opacity: 0;
+    }
+  }
+
+  .animate-ambient-float-1 {
+    animation: ambientFloat1 24s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-ambient-float-2 {
+    animation: ambientFloat2 30s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-ambient-float-3 {
+    animation: ambientFloat3 26s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-ambient-scan {
+    animation: ambientScan 22s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    will-change: top, opacity;
   }
 }
